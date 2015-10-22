@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">AdsbMonitor</string>
+    <string name="main_label_version">Version:</string>
+    <string name="main_label_history">History:</string>
+    <string name="main_label_refresh">Refresh:</string>
+    <string name="main_label_lat">Lat:</string>
+    <string name="main_label_lon">Lon:</string>
+</resources>

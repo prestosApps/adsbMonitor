@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.prestos.adsbmonitor.MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/main_label_version"
+        android:id="@+id/txtVersionLabel"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtVersionValue"
+        android:text="new text"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/txtVersionLabel"
+        android:layout_toEndOf="@+id/txtVersionLabel" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/main_label_refresh"
+        android:id="@+id/txtRefreshLabel"
+        android:layout_below="@+id/txtVersionLabel"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/main_label_history"
+        android:id="@+id/txtHistoryLabel"
+        android:layout_below="@+id/txtRefreshLabel"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/main_label_lat"
+        android:id="@+id/txtLatLabel"
+        android:layout_below="@+id/txtHistoryLabel"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/main_label_lon"
+        android:id="@+id/txtLonLabel"
+        android:layout_below="@+id/txtLatLabel"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/txtRefreshValue"
+        android:layout_below="@+id/txtVersionValue"
+        android:layout_toRightOf="@+id/txtRefreshLabel"
+        android:layout_toEndOf="@+id/txtRefreshLabel" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/txtHistoryValue"
+        android:layout_below="@+id/txtRefreshValue"
+        android:layout_alignLeft="@+id/txtRefreshValue"
+        android:layout_alignStart="@+id/txtRefreshValue" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/txtLatValue"
+        android:layout_below="@+id/txtHistoryLabel"
+        android:layout_toRightOf="@+id/txtLatLabel"
+        android:layout_toEndOf="@+id/txtLatLabel" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/txtLonValue"
+        android:layout_below="@+id/txtLatValue"
+        android:layout_toRightOf="@+id/txtLonLabel"
+        android:layout_toEndOf="@+id/txtLonLabel" />
+</RelativeLayout>
