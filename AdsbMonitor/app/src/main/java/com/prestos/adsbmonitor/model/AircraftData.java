@@ -5,6 +5,7 @@ import android.util.JsonReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,10 +18,9 @@ public class AircraftData {
     public static final String MESSAGES = "messages";
     public static final String AIRCRAFT = "aircraft";
 
-    private double now;
+    private Double now;
     private long messages;
     private List<Aircraft> aircraftList;
-    private List<AircraftData> history;
 
     public AircraftData(String jsonString) throws IOException {
         JsonReader jsonReader = new JsonReader(new StringReader(jsonString));
@@ -49,6 +49,13 @@ public class AircraftData {
         return now;
     }
 
+    public Date getNowAsDate() {
+        Long value = now.longValue();
+        Date date = new Date();
+        date.setTime(value * 1000);
+        return date;
+    }
+
     public void setNow(Double now) {
         this.now = now;
     }
@@ -69,11 +76,4 @@ public class AircraftData {
         this.aircraftList = aircraftList;
     }
 
-    public List<AircraftData> getHistory() {
-        return history;
-    }
-
-    public void setHistory(List<AircraftData> history) {
-        this.history = history;
-    }
 }

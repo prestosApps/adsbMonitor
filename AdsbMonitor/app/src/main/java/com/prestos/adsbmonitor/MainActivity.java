@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.prestos.adsbmonitor.model.AircraftData;
+import com.prestos.adsbmonitor.model.History;
 import com.prestos.adsbmonitor.model.Receiver;
 import com.prestos.adsbmonitor.model.Stats;
 
@@ -67,13 +68,15 @@ public class MainActivity extends AppCompatActivity {
         Format dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
         String pattern = ((SimpleDateFormat) dateFormat).toLocalizedPattern();
         SimpleDateFormat df = new SimpleDateFormat(pattern);
-        txtStarted.setText(df.format(date) );
+        txtStarted.setText(df.format(date));
     }
 
     private void handleAircraftDataResult(AircraftData aircraftData) {
         Cache.setCacheItem(AircraftData.AIRCRAFT_DATA, aircraftData);
+        History history = (History) Cache.getCacheItem(History.HISTORY);
         Log.d(this.getClass().getName(), aircraftData.getMessages() + " : " + aircraftData.getAircraftList().size());
-        Log.d(this.getClass().getName(), "History: " + aircraftData.getHistory().size());
+        Log.d(this.getClass().getName(), "History: " + history.getHistory().size());
+        Log.d(this.getClass().getName(), "Aircraft count: " + history.getAircraftHistoryCount());
     }
 
     private class ReceiverDataLoader extends AsyncTask<String, Void, Receiver> {
@@ -132,17 +135,23 @@ public class MainActivity extends AppCompatActivity {
             String receiverUrl = "http://" + voids[0] + URI;
             AircraftData aircraftData = null;
             try {
+                /*
+                First, lets get the history data
+                 */
                 Receiver receiver = (Receiver) Cache.getCacheItem(Receiver.RECEIVER);
-                Log.d(this.getClass().getName(), "Receiver history: " + receiver.getHistory());
-                List<AircraftData> aircraftDataList = new ArrayList<AircraftData>();
+                List<AircraftData> historyList = new ArrayList<AircraftData>();
                 for (int i = 0; i < receiver.getHistory(); i++) {
                     String uri = "http://" + voids[0] + MessageFormat.format(HISTORY, i);
-                    Log.d(this.getClass().getName(), "Loading: " + uri);
                     AircraftData data = new AircraftData(DataHandler.getData(uri));
-                    aircraftDataList.add(aircraftData);
+                    historyList.add(data);
                 }
+                History history = new History();
+                history.setHistory(historyList);
+                Cache.setCacheItem(History.HISTORY, history);
+                /*
+                Now get the current data and add the historic data
+                 */
                 aircraftData = new AircraftData(DataHandler.getData(receiverUrl));
-                aircraftData.setHistory(aircraftDataList);
             } catch (IOException e) {
                 Log.e(MainActivity.ReceiverDataLoader.class.getName(), "AAaarrggh!!", e);
             }
