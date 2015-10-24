@@ -3,7 +3,6 @@ package com.prestos.adsbmonitor.model;
 import android.util.JsonReader;
 
 import java.io.IOException;
-import java.util.Date;
 
 /**
  * Created by prestos on 24/10/2015.
@@ -18,6 +17,8 @@ public class Stat {
     public static final String ALTITUDE_SUPPRESSED = "altitude_suppressed";
     public static final String TRACKS = "tracks";
     public static final String MESSAGES = "messages";
+    public static final String START = "start";
+    public static final String END = "end";
 
     public static final String SAMPLES_PROCESSED = "samples_processed";
     public static final String SAMPLES_DROPPED = "samples_dropped";
@@ -30,8 +31,8 @@ public class Stat {
     public static final String SIGNAL = "signal";
     public static final String PEAK_SIGNAL = "peak_signal";
 
-    private Date start;
-    private Date end;
+    private double start;
+    private double end;
     private Local local;
     private Remote remote;
     private long httpRequests;
@@ -61,6 +62,10 @@ public class Stat {
                 track = new Track(jsonReader);
             } else if (name.equals(MESSAGES)) {
                 messages = jsonReader.nextLong();
+            } else if (name.equals(START)) {
+                start = jsonReader.nextDouble();
+            } else if (name.equals(END)) {
+                end = jsonReader.nextDouble();
             } else {
                 jsonReader.skipValue();
             }
@@ -68,19 +73,19 @@ public class Stat {
         jsonReader.endObject();
     }
 
-    public Date getStart() {
+    public Double getStart() {
         return start;
     }
 
-    public void setStart(Date start) {
+    public void setStart(Double start) {
         this.start = start;
     }
 
-    public Date getEnd() {
+    public Double getEnd() {
         return end;
     }
 
-    public void setEnd(Date end) {
+    public void setEnd(Double end) {
         this.end = end;
     }
 

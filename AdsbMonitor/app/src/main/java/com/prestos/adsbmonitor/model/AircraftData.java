@@ -5,7 +5,6 @@ import android.util.JsonReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,7 +16,7 @@ public class AircraftData {
     public static final String MESSAGES = "messages";
     public static final String AIRCRAFT = "aircraft";
 
-    private Date now;
+    private double now;
     private long messages;
     private List<Aircraft> aircraftList;
 
@@ -35,6 +34,8 @@ public class AircraftData {
                     aircraftList.add(new Aircraft(jsonReader));
                 }
                 jsonReader.endArray();
+            } else if (name.equals(NOW)) {
+                now = jsonReader.nextDouble();
             } else {
                 jsonReader.skipValue();
             }
@@ -42,11 +43,11 @@ public class AircraftData {
         jsonReader.close();
     }
 
-    public Date getNow() {
+    public Double getNow() {
         return now;
     }
 
-    public void setNow(Date now) {
+    public void setNow(Double now) {
         this.now = now;
     }
 
