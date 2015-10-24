@@ -10,6 +10,8 @@ import java.io.StringReader;
  */
 public class Receiver {
 
+    public static final String RECEIVER = "receiver";
+
     private String jsonString;
     private String version;
     private int refresh;

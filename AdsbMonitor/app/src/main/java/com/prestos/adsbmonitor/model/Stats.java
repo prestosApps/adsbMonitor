@@ -9,7 +9,7 @@ import java.io.StringReader;
  * Created by prestos on 24/10/2015.
  */
 public class Stats {
-
+    public static final String STATS = "stats";
     public static final String LATEST = "latest";
     public static final String LAST_1_MIN = "last1min";
     public static final String LAST_5_MIN = "last5min";

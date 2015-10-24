@@ -96,4 +96,22 @@
         android:layout_below="@+id/txtLatValue"
         android:layout_toRightOf="@+id/txtLonLabel"
         android:layout_toEndOf="@+id/txtLonLabel" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dump1090 Instance started:"
+        android:id="@+id/txtDump1090Start"
+        android:layout_below="@+id/txtLonLabel"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/txtStarted"
+        android:layout_alignTop="@+id/txtDump1090Start"
+        android:layout_toRightOf="@+id/txtDump1090Start"
+        android:layout_toEndOf="@+id/txtDump1090Start" />
 </RelativeLayout>

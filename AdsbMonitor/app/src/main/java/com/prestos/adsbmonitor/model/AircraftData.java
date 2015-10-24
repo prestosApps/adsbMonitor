@@ -12,6 +12,7 @@ import java.util.List;
  */
 public class AircraftData {
 
+    public static final String AIRCRAFT_DATA = "aircraftData";
     public static final String NOW = "now";
     public static final String MESSAGES = "messages";
     public static final String AIRCRAFT = "aircraft";
@@ -19,6 +20,7 @@ public class AircraftData {
     private double now;
     private long messages;
     private List<Aircraft> aircraftList;
+    private List<AircraftData> history;
 
     public AircraftData(String jsonString) throws IOException {
         JsonReader jsonReader = new JsonReader(new StringReader(jsonString));
@@ -65,5 +67,13 @@ public class AircraftData {
 
     public void setAircraftList(List<Aircraft> aircraftList) {
         this.aircraftList = aircraftList;
+    }
+
+    public List<AircraftData> getHistory() {
+        return history;
+    }
+
+    public void setHistory(List<AircraftData> history) {
+        this.history = history;
     }
 }

@@ -3,6 +3,7 @@ package com.prestos.adsbmonitor.model;
 import android.util.JsonReader;
 
 import java.io.IOException;
+import java.util.Date;
 
 /**
  * Created by prestos on 24/10/2015.
@@ -31,8 +32,8 @@ public class Stat {
     public static final String SIGNAL = "signal";
     public static final String PEAK_SIGNAL = "peak_signal";
 
-    private double start;
-    private double end;
+    private Double start;
+    private Double end;
     private Local local;
     private Remote remote;
     private long httpRequests;
@@ -75,6 +76,13 @@ public class Stat {
 
     public Double getStart() {
         return start;
+    }
+
+    public Date getStartAsDate() {
+        Long longValue = start.longValue();
+        Date date = new Date();
+        date.setTime(longValue * 1000);
+        return date;
     }
 
     public void setStart(Double start) {

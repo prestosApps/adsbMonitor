@@ -11,6 +11,12 @@ import com.prestos.adsbmonitor.model.Receiver;
 import com.prestos.adsbmonitor.model.Stats;
 
 import java.io.IOException;
+import java.text.Format;
+import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,6 +26,11 @@ public class MainActivity extends AppCompatActivity {
     private TextView txtHistoryValue;
     private TextView txtLatValue;
     private TextView txtLonValue;
+    /*
+    Stats
+     */
+    private TextView txtStarted;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,16 +41,19 @@ public class MainActivity extends AppCompatActivity {
         txtHistoryValue = (TextView) findViewById(R.id.txtHistoryValue);
         txtLatValue = (TextView) findViewById(R.id.txtLatValue);
         txtLonValue = (TextView) findViewById(R.id.txtLonValue);
+
+        txtStarted = (TextView) findViewById(R.id.txtStarted);
         loadData();
     }
 
     private void loadData() {
         new ReceiverDataLoader().execute(HOSTNAME);
         new StatsDataLoader().execute(HOSTNAME);
-        new AircraftDataLoader().execute(HOSTNAME);
     }
 
-    private void displayReceiverResult(Receiver receiver) {
+    private void handleReceiverResult(Receiver receiver) {
+        Cache.setCacheItem(Receiver.RECEIVER, receiver);
+        new AircraftDataLoader().execute(HOSTNAME);
         txtVersionValue.setText(receiver.getVersion());
         txtRefreshValue.setText(String.valueOf(receiver.getRefresh()));
         txtHistoryValue.setText(String.valueOf(receiver.getHistory()));
@@ -47,12 +61,19 @@ public class MainActivity extends AppCompatActivity {
         txtLonValue.setText(String.valueOf(receiver.getLon()));
     }
 
-    private void displayStatsResult(Stats stats) {
-        Log.d(MainActivity.class.getName(), "Messages: " + stats.getTotal().getMessages());
+    private void handleStatsResult(Stats stats) {
+        Cache.setCacheItem(Stats.STATS, stats);
+        Date date = stats.getTotal().getStartAsDate();
+        Format dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
+        String pattern = ((SimpleDateFormat) dateFormat).toLocalizedPattern();
+        SimpleDateFormat df = new SimpleDateFormat(pattern);
+        txtStarted.setText(df.format(date) );
     }
 
-    private void displayAircraftDataResult(AircraftData aircraftData) {
+    private void handleAircraftDataResult(AircraftData aircraftData) {
+        Cache.setCacheItem(AircraftData.AIRCRAFT_DATA, aircraftData);
         Log.d(this.getClass().getName(), aircraftData.getMessages() + " : " + aircraftData.getAircraftList().size());
+        Log.d(this.getClass().getName(), "History: " + aircraftData.getHistory().size());
     }
 
     private class ReceiverDataLoader extends AsyncTask<String, Void, Receiver> {
@@ -74,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Receiver receiver) {
             super.onPostExecute(receiver);
-            displayReceiverResult(receiver);
+            handleReceiverResult(receiver);
         }
     }
 
@@ -97,20 +118,31 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Stats stats) {
             super.onPostExecute(stats);
-            displayStatsResult(stats);
+            handleStatsResult(stats);
         }
     }
 
     private class AircraftDataLoader extends AsyncTask<String, Void, AircraftData> {
 
         private String URI = "/dump1090/data/aircraft.json";
+        private String HISTORY = "/dump1090/data/history_{0}.json";
 
         @Override
         protected AircraftData doInBackground(String... voids) {
             String receiverUrl = "http://" + voids[0] + URI;
             AircraftData aircraftData = null;
             try {
+                Receiver receiver = (Receiver) Cache.getCacheItem(Receiver.RECEIVER);
+                Log.d(this.getClass().getName(), "Receiver history: " + receiver.getHistory());
+                List<AircraftData> aircraftDataList = new ArrayList<AircraftData>();
+                for (int i = 0; i < receiver.getHistory(); i++) {
+                    String uri = "http://" + voids[0] + MessageFormat.format(HISTORY, i);
+                    Log.d(this.getClass().getName(), "Loading: " + uri);
+                    AircraftData data = new AircraftData(DataHandler.getData(uri));
+                    aircraftDataList.add(aircraftData);
+                }
                 aircraftData = new AircraftData(DataHandler.getData(receiverUrl));
+                aircraftData.setHistory(aircraftDataList);
             } catch (IOException e) {
                 Log.e(MainActivity.ReceiverDataLoader.class.getName(), "AAaarrggh!!", e);
             }
@@ -120,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(AircraftData aircraftData) {
             super.onPostExecute(aircraftData);
-            displayAircraftDataResult(aircraftData);
+            handleAircraftDataResult(aircraftData);
         }
     }
 }
