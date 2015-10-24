@@ -1,7 +1,6 @@
-package com.prestos.adsbmonitor;
+package com.prestos.adsbmonitor.model;
 
 import android.util.JsonReader;
-import android.util.Log;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -11,37 +10,39 @@ import java.io.StringReader;
  */
 public class Receiver {
 
+    private String jsonString;
     private String version;
     private int refresh;
     private int history;
     private double lat;
     private double lon;
 
-    public Receiver(String jsonString) {
+    public Receiver(String jsonString) throws IOException {
+        this.jsonString = jsonString;
+        handleJsonMessage();
+    }
+
+    private void handleJsonMessage() throws IOException {
         JsonReader jsonReader = new JsonReader(new StringReader(jsonString));
 
-        try {
-            jsonReader.beginObject();
-            while (jsonReader.hasNext()) {
-                String name = jsonReader.nextName();
-                if (name.equals("version")) {
-                    version = jsonReader.nextString();
-                } else if (name.equals("refresh")) {
-                    refresh = jsonReader.nextInt();
-                } else if (name.equals("history")) {
-                    history = jsonReader.nextInt();
-                } else if (name.equals("lat")) {
-                    lat = jsonReader.nextDouble();
-                } else if (name.equals("lon")) {
-                    lon = jsonReader.nextDouble();
-                } else {
-                    jsonReader.skipValue();
-                }
+        jsonReader.beginObject();
+        while (jsonReader.hasNext()) {
+            String name = jsonReader.nextName();
+            if (name.equals("version")) {
+                version = jsonReader.nextString();
+            } else if (name.equals("refresh")) {
+                refresh = jsonReader.nextInt();
+            } else if (name.equals("history")) {
+                history = jsonReader.nextInt();
+            } else if (name.equals("lat")) {
+                lat = jsonReader.nextDouble();
+            } else if (name.equals("lon")) {
+                lon = jsonReader.nextDouble();
+            } else {
+                jsonReader.skipValue();
             }
-            jsonReader.close();
-        } catch (IOException e) {
-            Log.e(Receiver.class.getName(), "Aarrggh!!", e);
         }
+        jsonReader.close();
     }
 
     public String getVersion() {
