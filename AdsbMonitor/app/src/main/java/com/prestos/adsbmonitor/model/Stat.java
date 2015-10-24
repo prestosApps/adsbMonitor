@@ -10,6 +10,15 @@ import java.util.Date;
  */
 public class Stat {
 
+    public static final String LOCAL = "local";
+    public static final String REMOTE = "remote";
+    public static final String HTTP_REQUESTS = "http_requests";
+    public static final String CPR = "cpr";
+    public static final String CPU = "cpu";
+    public static final String ALTITUDE_SUPPRESSED = "altitude_suppressed";
+    public static final String TRACKS = "tracks";
+    public static final String MESSAGES = "messages";
+
     public static final String SAMPLES_PROCESSED = "samples_processed";
     public static final String SAMPLES_DROPPED = "samples_dropped";
     public static final String MODEAC = "modeac";
@@ -25,19 +34,33 @@ public class Stat {
     private Date end;
     private Local local;
     private Remote remote;
-    private int httpRequests;
+    private long httpRequests;
     private Cpu cpu;
-    private int altitudeSuppressed;
+    private long altitudeSuppressed;
     private Cpr cpr;
     private Track track;
-    private int messages;
+    private long messages;
 
     public Stat(JsonReader jsonReader) throws IOException {
         jsonReader.beginObject();
         while (jsonReader.hasNext()) {
             String name = jsonReader.nextName();
-            if (name.equals("local")) {
+            if (name.equals(LOCAL)) {
                 local = new Local(jsonReader);
+            } else if (name.equals(REMOTE)) {
+                remote = new Remote(jsonReader);
+            } else if (name.equals(HTTP_REQUESTS)) {
+                httpRequests = jsonReader.nextLong();
+            } else if (name.equals(CPR)) {
+                cpr = new Cpr(jsonReader);
+            } else if (name.equals(ALTITUDE_SUPPRESSED)) {
+                altitudeSuppressed = jsonReader.nextLong();
+            } else if (name.equals(CPU)) {
+                cpu = new Cpu(jsonReader);
+            } else if (name.equals(TRACKS)) {
+                track = new Track(jsonReader);
+            } else if (name.equals(MESSAGES)) {
+                messages = jsonReader.nextLong();
             } else {
                 jsonReader.skipValue();
             }
@@ -77,11 +100,11 @@ public class Stat {
         this.remote = remote;
     }
 
-    public int getHttpRequests() {
+    public long getHttpRequests() {
         return httpRequests;
     }
 
-    public void setHttpRequests(int httpRequests) {
+    public void setHttpRequests(long httpRequests) {
         this.httpRequests = httpRequests;
     }
 
@@ -93,11 +116,11 @@ public class Stat {
         this.cpu = cpu;
     }
 
-    public int getAltitudeSuppressed() {
+    public long getAltitudeSuppressed() {
         return altitudeSuppressed;
     }
 
-    public void setAltitudeSuppressed(int altitudeSuppressed) {
+    public void setAltitudeSuppressed(long altitudeSuppressed) {
         this.altitudeSuppressed = altitudeSuppressed;
     }
 
@@ -117,11 +140,11 @@ public class Stat {
         this.track = track;
     }
 
-    public int getMessages() {
+    public long getMessages() {
         return messages;
     }
 
-    public void setMessages(int messages) {
+    public void setMessages(long messages) {
         this.messages = messages;
     }
 }

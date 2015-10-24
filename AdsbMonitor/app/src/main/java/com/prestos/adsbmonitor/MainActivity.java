@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void displayStatsResult(Stats stats) {
-        Log.d(MainActivity.class.getName(), "samples processed: " + stats.getLatest().getLocal().getSamplesProcessed());
+        Log.d(MainActivity.class.getName(), "Messages: " + stats.getTotal().getMessages());
     }
 
     private class ReceiverDataLoader extends AsyncTask<String, Void, Receiver> {

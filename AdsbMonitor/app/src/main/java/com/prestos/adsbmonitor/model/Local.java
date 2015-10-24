@@ -10,44 +10,44 @@ import java.util.List;
  * Created by prestos on 24/10/2015.
  */
 public class Local {
-    private int samplesProcessed;
-    private int samplesDropped;
-    private int modeac;
-    private int modes;
-    private int bad;
-    private int unknownIcao;
-    private List<Integer> accepted;
+    private long samplesProcessed;
+    private long samplesDropped;
+    private long modeac;
+    private long modes;
+    private long bad;
+    private long unknownIcao;
+    private List<Long> accepted;
     private double signal;
     private double peakSignal;
-    private int strongSignals;
+    private long strongSignals;
 
     public Local(JsonReader jsonReader) throws IOException {
         jsonReader.beginObject();
         while (jsonReader.hasNext()) {
             String name = jsonReader.nextName();
             if (name.equals(Stat.SAMPLES_PROCESSED)) {
-                samplesProcessed = jsonReader.nextInt();
+                samplesProcessed = jsonReader.nextLong();
             } else if (name.equals(Stat.SAMPLES_DROPPED)) {
-                samplesProcessed = jsonReader.nextInt();
+                samplesDropped = jsonReader.nextLong();
             } else if (name.equals(Stat.MODEAC)) {
-                modeac = jsonReader.nextInt();
+                modeac = jsonReader.nextLong();
             } else if (name.equals(Stat.MODES)) {
-                modes = jsonReader.nextInt();
+                modes = jsonReader.nextLong();
             } else if (name.equals(Stat.BAD)) {
-                bad = jsonReader.nextInt();
+                bad = jsonReader.nextLong();
             } else if (name.equals(Stat.UNKNOWN_ICAO)) {
-                unknownIcao = jsonReader.nextInt();
+                unknownIcao = jsonReader.nextLong();
             } else if (name.equals(Stat.SIGNAL)) {
                 signal = jsonReader.nextDouble();
             } else if (name.equals(Stat.PEAK_SIGNAL)) {
                 peakSignal = jsonReader.nextDouble();
             } else if (name.equals(Stat.STRONG_SIGNALS)) {
-                strongSignals = jsonReader.nextInt();
+                strongSignals = jsonReader.nextLong();
             } else if (name.equals(Stat.ACCEPTED)) {
-                accepted = new ArrayList<Integer>();
+                accepted = new ArrayList<Long>();
                 jsonReader.beginArray();
                 while (jsonReader.hasNext()) {
-                    accepted.add(jsonReader.nextInt());
+                    accepted.add(jsonReader.nextLong());
                 }
                 jsonReader.endArray();
             } else {
@@ -57,59 +57,59 @@ public class Local {
         jsonReader.endObject();
     }
 
-    public int getSamplesProcessed() {
+    public long getSamplesProcessed() {
         return samplesProcessed;
     }
 
-    public void setSamplesProcessed(int samplesProcessed) {
+    public void setSamplesProcessed(long samplesProcessed) {
         this.samplesProcessed = samplesProcessed;
     }
 
-    public int getSamplesDropped() {
+    public long getSamplesDropped() {
         return samplesDropped;
     }
 
-    public void setSamplesDropped(int samplesDropped) {
+    public void setSamplesDropped(long samplesDropped) {
         this.samplesDropped = samplesDropped;
     }
 
-    public int getModeac() {
+    public long getModeac() {
         return modeac;
     }
 
-    public void setModeac(int modeac) {
+    public void setModeac(long modeac) {
         this.modeac = modeac;
     }
 
-    public int getModes() {
+    public long getModes() {
         return modes;
     }
 
-    public void setModes(int modes) {
+    public void setModes(long modes) {
         this.modes = modes;
     }
 
-    public int getBad() {
+    public long getBad() {
         return bad;
     }
 
-    public void setBad(int bad) {
+    public void setBad(long bad) {
         this.bad = bad;
     }
 
-    public int getUnknownIcao() {
+    public long getUnknownIcao() {
         return unknownIcao;
     }
 
-    public void setUnknownIcao(int unknownIcao) {
+    public void setUnknownIcao(long unknownIcao) {
         this.unknownIcao = unknownIcao;
     }
 
-    public List<Integer> getAccepted() {
+    public List<Long> getAccepted() {
         return accepted;
     }
 
-    public void setAccepted(List<Integer> accepted) {
+    public void setAccepted(List<Long> accepted) {
         this.accepted = accepted;
     }
 
@@ -129,11 +129,11 @@ public class Local {
         this.peakSignal = peakSignal;
     }
 
-    public int getStrongSignals() {
+    public long getStrongSignals() {
         return strongSignals;
     }
 
-    public void setStrongSignals(int strongSignals) {
+    public void setStrongSignals(long strongSignals) {
         this.strongSignals = strongSignals;
     }
 }

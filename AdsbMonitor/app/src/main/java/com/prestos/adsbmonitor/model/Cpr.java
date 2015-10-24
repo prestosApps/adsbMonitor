@@ -1,133 +1,191 @@
 package com.prestos.adsbmonitor.model;
 
+import android.util.JsonReader;
+
+import java.io.IOException;
+
 /**
  * Created by prestos on 24/10/2015.
  */
 public class Cpr {
-    private int surface;
-    private int airborne;
-    private int globalOk;
-    private int globalBad;
-    private int globalRange;
-    private int globalSpeed;
-    private int globalSkipped;
-    private int localOk;
-    private int localAircraftRelative;
-    private int localReceiverRelative;
-    private int localSkipped;
-    private int localRange;
-    private int localSpeed;
-    private int filtered;
+    public static final String SURFACE = "surface";
+    public static final String AIRBORNE = "airborne";
+    public static final String GLOBAL_OK = "global_ok";
+    public static final String GLOBAL_BAD = "global_bad";
+    public static final String GLOBAL_RANGE = "global_range";
+    public static final String GLOBAL_SPEED = "global_speed";
+    public static final String GLOBAL_SKIPPED = "global_skipped";
+    public static final String LOCAL_OK = "local_ok";
+    public static final String LOCAL_AIRCRAFT_RELATIVE = "local_aircraft_relative";
+    public static final String LOCAL_RECEIVER_RELATIVE = "local_receiver_relative";
+    public static final String LOCAL_SKIPPED = "local_skipped";
+    public static final String LOCAL_RANGE = "local_range";
+    public static final String LOCAL_SPEED = "local_speed";
+    public static final String FILTERED = "filtered";
 
-    public int getSurface() {
+    private long surface;
+    private long airborne;
+    private long globalOk;
+    private long globalBad;
+    private long globalRange;
+    private long globalSpeed;
+    private long globalSkipped;
+    private long localOk;
+    private long localAircraftRelative;
+    private long localReceiverRelative;
+    private long localSkipped;
+    private long localRange;
+    private long localSpeed;
+    private long filtered;
+
+    public Cpr(JsonReader jsonReader) throws IOException {
+        jsonReader.beginObject();
+        while (jsonReader.hasNext()) {
+            String name = jsonReader.nextName();
+            if (name.equals(SURFACE)) {
+                surface = jsonReader.nextLong();
+            } else if (name.equals(AIRBORNE)) {
+                airborne = jsonReader.nextLong();
+            } else if (name.equals(GLOBAL_OK)) {
+                globalOk = jsonReader.nextLong();
+            } else if (name.equals(GLOBAL_BAD)) {
+                globalBad = jsonReader.nextLong();
+            } else if (name.equals(GLOBAL_RANGE)) {
+                globalRange = jsonReader.nextLong();
+            } else if (name.equals(GLOBAL_SPEED)) {
+                globalSpeed = jsonReader.nextLong();
+            } else if (name.equals(GLOBAL_SKIPPED)) {
+                globalSkipped = jsonReader.nextLong();
+            } else if (name.equals(LOCAL_OK)) {
+                localOk = jsonReader.nextLong();
+            } else if (name.equals(LOCAL_AIRCRAFT_RELATIVE)) {
+                localAircraftRelative = jsonReader.nextLong();
+            } else if (name.equals(LOCAL_RECEIVER_RELATIVE)) {
+                localReceiverRelative = jsonReader.nextLong();
+            } else if (name.equals(LOCAL_SKIPPED)) {
+                localSkipped = jsonReader.nextLong();
+            } else if (name.equals(LOCAL_RANGE)) {
+                localRange = jsonReader.nextLong();
+            } else if (name.equals(LOCAL_SPEED)) {
+                localSpeed = jsonReader.nextLong();
+            } else if (name.equals(FILTERED)) {
+                filtered = jsonReader.nextLong();
+            } else {
+                jsonReader.skipValue();
+            }
+        }
+        jsonReader.endObject();
+    }
+
+    public long getSurface() {
         return surface;
     }
 
-    public void setSurface(int surface) {
+    public void setSurface(long surface) {
         this.surface = surface;
     }
 
-    public int getAirborne() {
+    public long getAirborne() {
         return airborne;
     }
 
-    public void setAirborne(int airborne) {
+    public void setAirborne(long airborne) {
         this.airborne = airborne;
     }
 
-    public int getGlobalOk() {
+    public long getGlobalOk() {
         return globalOk;
     }
 
-    public void setGlobalOk(int globalOk) {
+    public void setGlobalOk(long globalOk) {
         this.globalOk = globalOk;
     }
 
-    public int getGlobalBad() {
+    public long getGlobalBad() {
         return globalBad;
     }
 
-    public void setGlobalBad(int globalBad) {
+    public void setGlobalBad(long globalBad) {
         this.globalBad = globalBad;
     }
 
-    public int getGlobalRange() {
+    public long getGlobalRange() {
         return globalRange;
     }
 
-    public void setGlobalRange(int globalRange) {
+    public void setGlobalRange(long globalRange) {
         this.globalRange = globalRange;
     }
 
-    public int getGlobalSpeed() {
+    public long getGlobalSpeed() {
         return globalSpeed;
     }
 
-    public void setGlobalSpeed(int globalSpeed) {
+    public void setGlobalSpeed(long globalSpeed) {
         this.globalSpeed = globalSpeed;
     }
 
-    public int getGlobalSkipped() {
+    public long getGlobalSkipped() {
         return globalSkipped;
     }
 
-    public void setGlobalSkipped(int globalSkipped) {
+    public void setGlobalSkipped(long globalSkipped) {
         this.globalSkipped = globalSkipped;
     }
 
-    public int getLocalOk() {
+    public long getLocalOk() {
         return localOk;
     }
 
-    public void setLocalOk(int localOk) {
+    public void setLocalOk(long localOk) {
         this.localOk = localOk;
     }
 
-    public int getLocalAircraftRelative() {
+    public long getLocalAircraftRelative() {
         return localAircraftRelative;
     }
 
-    public void setLocalAircraftRelative(int localAircraftRelative) {
+    public void setLocalAircraftRelative(long localAircraftRelative) {
         this.localAircraftRelative = localAircraftRelative;
     }
 
-    public int getLocalReceiverRelative() {
+    public long getLocalReceiverRelative() {
         return localReceiverRelative;
     }
 
-    public void setLocalReceiverRelative(int localReceiverRelative) {
+    public void setLocalReceiverRelative(long localReceiverRelative) {
         this.localReceiverRelative = localReceiverRelative;
     }
 
-    public int getLocalSkipped() {
+    public long getLocalSkipped() {
         return localSkipped;
     }
 
-    public void setLocalSkipped(int localSkipped) {
+    public void setLocalSkipped(long localSkipped) {
         this.localSkipped = localSkipped;
     }
 
-    public int getLocalRange() {
+    public long getLocalRange() {
         return localRange;
     }
 
-    public void setLocalRange(int localRange) {
+    public void setLocalRange(long localRange) {
         this.localRange = localRange;
     }
 
-    public int getLocalSpeed() {
+    public long getLocalSpeed() {
         return localSpeed;
     }
 
-    public void setLocalSpeed(int localSpeed) {
+    public void setLocalSpeed(long localSpeed) {
         this.localSpeed = localSpeed;
     }
 
-    public int getFiltered() {
+    public long getFiltered() {
         return filtered;
     }
 
-    public void setFiltered(int filtered) {
+    public void setFiltered(long filtered) {
         this.filtered = filtered;
     }
 }

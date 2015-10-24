@@ -10,6 +10,13 @@ import java.io.StringReader;
  */
 public class Stats {
 
+    public static final String LATEST = "latest";
+    public static final String LAST_1_MIN = "last1min";
+    public static final String LAST_5_MIN = "last5min";
+    public static final String LAST_15_MIN = "last15min";
+    public static final String TOTAL = "total";
+
+
     private String jsonString;
     private Stat latest;
     private Stat last1Min;
@@ -27,8 +34,16 @@ public class Stats {
         jsonReader.beginObject();
         while (jsonReader.hasNext()) {
             String name = jsonReader.nextName();
-            if (name.equals("latest")) {
+            if (name.equals(LATEST)) {
                 latest = new Stat(jsonReader);
+            } else if (name.equals(LAST_1_MIN)) {
+                last1Min = new Stat(jsonReader);
+            } else if (name.equals(LAST_5_MIN)) {
+                last5Min = new Stat(jsonReader);
+            } else if (name.equals(LAST_15_MIN)) {
+                last15Min = new Stat(jsonReader);
+            } else if (name.equals(TOTAL)) {
+                total = new Stat(jsonReader);
             } else {
                 jsonReader.skipValue();
             }
