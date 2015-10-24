@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.prestos.adsbmonitor.model.AircraftData;
 import com.prestos.adsbmonitor.model.Receiver;
 import com.prestos.adsbmonitor.model.Stats;
 
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private void loadData() {
         new ReceiverDataLoader().execute(HOSTNAME);
         new StatsDataLoader().execute(HOSTNAME);
+        new AircraftDataLoader().execute(HOSTNAME);
     }
 
     private void displayReceiverResult(Receiver receiver) {
@@ -47,6 +49,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void displayStatsResult(Stats stats) {
         Log.d(MainActivity.class.getName(), "Messages: " + stats.getTotal().getMessages());
+    }
+
+    private void displayAircraftDataResult(AircraftData aircraftData) {
+        Log.d(this.getClass().getName(), aircraftData.getMessages() + " : " + aircraftData.getAircraftList().size());
     }
 
     private class ReceiverDataLoader extends AsyncTask<String, Void, Receiver> {
@@ -92,6 +98,29 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Stats stats) {
             super.onPostExecute(stats);
             displayStatsResult(stats);
+        }
+    }
+
+    private class AircraftDataLoader extends AsyncTask<String, Void, AircraftData> {
+
+        private String URI = "/dump1090/data/aircraft.json";
+
+        @Override
+        protected AircraftData doInBackground(String... voids) {
+            String receiverUrl = "http://" + voids[0] + URI;
+            AircraftData aircraftData = null;
+            try {
+                aircraftData = new AircraftData(DataHandler.getData(receiverUrl));
+            } catch (IOException e) {
+                Log.e(MainActivity.ReceiverDataLoader.class.getName(), "AAaarrggh!!", e);
+            }
+            return aircraftData;
+        }
+
+        @Override
+        protected void onPostExecute(AircraftData aircraftData) {
+            super.onPostExecute(aircraftData);
+            displayAircraftDataResult(aircraftData);
         }
     }
 }
