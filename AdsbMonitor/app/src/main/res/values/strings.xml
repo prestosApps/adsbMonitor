@@ -1,8 +1,12 @@
 <resources>
     <string name="app_name">AdsbMonitor</string>
-    <string name="main_label_version">Version:</string>
+    <string name="main_label_version">Dump1090 Version:</string>
     <string name="main_label_history">History:</string>
     <string name="main_label_refresh">Refresh:</string>
     <string name="main_label_lat">Lat:</string>
     <string name="main_label_lon">Lon:</string>
+    <string name="stat_local_samples_processed">Samples Processed:</string>
+    <string name="stat_local_samples_dropped">Samples Dropped:</string>
+    <string name="stat_local_modeac">modeac:</string>
+    <string name="stat_local_modes">modes:</string>
 </resources>

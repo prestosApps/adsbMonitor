@@ -14,6 +14,7 @@ import com.prestos.adsbmonitor.model.Stats;
 import java.io.IOException;
 import java.text.Format;
 import java.text.MessageFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,27 +24,31 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String HOSTNAME = "192.168.1.79";
     private TextView txtVersionValue;
-    private TextView txtRefreshValue;
-    private TextView txtHistoryValue;
     private TextView txtLatValue;
     private TextView txtLonValue;
     /*
     Stats
      */
     private TextView txtStarted;
-
+    private TextView txtStatTotalTitle;
+    private TextView txtStatLocalSamplesProcessed;
+    private TextView txtStatLocalSamplesDropped;
+    private TextView txtStatLocalModeac;
+    private TextView txtStatLocalModes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         txtVersionValue = (TextView) findViewById(R.id.txtVersionValue);
-        txtRefreshValue = (TextView) findViewById(R.id.txtRefreshValue);
-        txtHistoryValue = (TextView) findViewById(R.id.txtHistoryValue);
         txtLatValue = (TextView) findViewById(R.id.txtLatValue);
         txtLonValue = (TextView) findViewById(R.id.txtLonValue);
-
         txtStarted = (TextView) findViewById(R.id.txtStarted);
+        txtStatTotalTitle = (TextView) findViewById(R.id.txtStatTitle);
+        txtStatLocalSamplesProcessed = (TextView) findViewById(R.id.txtStatLocalSamplesProcessedValue);
+        txtStatLocalSamplesDropped = (TextView) findViewById(R.id.txtStatLocalSamplesDroppedValue);
+        txtStatLocalModeac = (TextView) findViewById(R.id.txtStatLocalModeacValue);
+        txtStatLocalModes = (TextView) findViewById(R.id.txtStatLocalModesValue);
         loadData();
     }
 
@@ -56,8 +61,6 @@ public class MainActivity extends AppCompatActivity {
         Cache.setCacheItem(Receiver.RECEIVER, receiver);
         new AircraftDataLoader().execute(HOSTNAME);
         txtVersionValue.setText(receiver.getVersion());
-        txtRefreshValue.setText(String.valueOf(receiver.getRefresh()));
-        txtHistoryValue.setText(String.valueOf(receiver.getHistory()));
         txtLatValue.setText(String.valueOf(receiver.getLat()));
         txtLonValue.setText(String.valueOf(receiver.getLon()));
     }
@@ -69,6 +72,12 @@ public class MainActivity extends AppCompatActivity {
         String pattern = ((SimpleDateFormat) dateFormat).toLocalizedPattern();
         SimpleDateFormat df = new SimpleDateFormat(pattern);
         txtStarted.setText(df.format(date));
+        txtStatTotalTitle.setText("Total");
+        NumberFormat nf = NumberFormat.getNumberInstance();
+        txtStatLocalSamplesProcessed.setText(nf.format(stats.getTotal().getLocal().getSamplesProcessed()));
+        txtStatLocalSamplesDropped.setText(nf.format(stats.getTotal().getLocal().getSamplesDropped()));
+        txtStatLocalModeac.setText(nf.format(stats.getTotal().getLocal().getModeac()));
+        txtStatLocalModes.setText(nf.format(stats.getTotal().getLocal().getModes()));
     }
 
     private void handleAircraftDataResult(AircraftData aircraftData) {
