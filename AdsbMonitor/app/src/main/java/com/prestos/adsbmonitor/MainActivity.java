@@ -1,11 +1,16 @@
 package com.prestos.adsbmonitor;
 
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
 import com.prestos.adsbmonitor.model.AircraftData;
 import com.prestos.adsbmonitor.model.History;
 import com.prestos.adsbmonitor.model.Receiver;
@@ -14,7 +19,6 @@ import com.prestos.adsbmonitor.model.Stats;
 import java.io.IOException;
 import java.text.Format;
 import java.text.MessageFormat;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,11 +34,13 @@ public class MainActivity extends AppCompatActivity {
     Stats
      */
     private TextView txtStarted;
-    private TextView txtStatTotalTitle;
-    private TextView txtStatLocalSamplesProcessed;
-    private TextView txtStatLocalSamplesDropped;
-    private TextView txtStatLocalModeac;
-    private TextView txtStatLocalModes;
+    //    private TextView txtStatTotalTitle;
+//    private TextView txtStatLocalSamplesProcessed;
+//    private TextView txtStatLocalSamplesDropped;
+//    private TextView txtStatLocalModeac;
+//    private TextView txtStatLocalModes;
+//    private TextView txtStatLocalModesBad;
+    private PieChart pieChart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +50,14 @@ public class MainActivity extends AppCompatActivity {
         txtLatValue = (TextView) findViewById(R.id.txtLatValue);
         txtLonValue = (TextView) findViewById(R.id.txtLonValue);
         txtStarted = (TextView) findViewById(R.id.txtStarted);
-        txtStatTotalTitle = (TextView) findViewById(R.id.txtStatTitle);
-        txtStatLocalSamplesProcessed = (TextView) findViewById(R.id.txtStatLocalSamplesProcessedValue);
-        txtStatLocalSamplesDropped = (TextView) findViewById(R.id.txtStatLocalSamplesDroppedValue);
-        txtStatLocalModeac = (TextView) findViewById(R.id.txtStatLocalModeacValue);
-        txtStatLocalModes = (TextView) findViewById(R.id.txtStatLocalModesValue);
+//        txtStatTotalTitle = (TextView) findViewById(R.id.txtStatTitle);
+//        txtStatLocalSamplesProcessed = (TextView) findViewById(R.id.txtStatLocalSamplesProcessedValue);
+//        txtStatLocalSamplesDropped = (TextView) findViewById(R.id.txtStatLocalSamplesDroppedValue);
+//        txtStatLocalModeac = (TextView) findViewById(R.id.txtStatLocalModeacValue);
+//        txtStatLocalModes = (TextView) findViewById(R.id.txtStatLocalModesValue);
+//        txtStatLocalModesBad = (TextView) findViewById(R.id.txtStatLocalModesBadValue);
+        pieChart = (PieChart) findViewById(R.id.pieChart);
+
         loadData();
     }
 
@@ -72,12 +81,35 @@ public class MainActivity extends AppCompatActivity {
         String pattern = ((SimpleDateFormat) dateFormat).toLocalizedPattern();
         SimpleDateFormat df = new SimpleDateFormat(pattern);
         txtStarted.setText(df.format(date));
-        txtStatTotalTitle.setText("Total");
-        NumberFormat nf = NumberFormat.getNumberInstance();
-        txtStatLocalSamplesProcessed.setText(nf.format(stats.getTotal().getLocal().getSamplesProcessed()));
-        txtStatLocalSamplesDropped.setText(nf.format(stats.getTotal().getLocal().getSamplesDropped()));
-        txtStatLocalModeac.setText(nf.format(stats.getTotal().getLocal().getModeac()));
-        txtStatLocalModes.setText(nf.format(stats.getTotal().getLocal().getModes()));
+//        txtStatTotalTitle.setText("Total");
+//        NumberFormat nf = NumberFormat.getNumberInstance();
+//        txtStatLocalSamplesProcessed.setText(nf.format(stats.getTotal().getLocal().getSamplesProcessed()));
+//        txtStatLocalSamplesDropped.setText(nf.format(stats.getTotal().getLocal().getSamplesDropped()));
+//        txtStatLocalModeac.setText(nf.format(stats.getTotal().getLocal().getModeac()));
+//        txtStatLocalModes.setText(nf.format(stats.getTotal().getLocal().getModes()));
+//        txtStatLocalModesBad.setText(nf.format(stats.getTotal().getLocal().getBad()));
+        List<Entry> pieDataList = new ArrayList<Entry>();
+        Entry entry1 = new Entry(stats.getLast1Min().getLocal().getBad(), 1);
+        Entry entry2 = new Entry(stats.getLast1Min().getLocal().getUnknownIcao(), 2);
+        Entry entry3 = new Entry(stats.getLast1Min().getLocal().getAccepted().get(0), 3);
+        Entry entry4 = new Entry(stats.getLast1Min().getLocal().getAccepted().get(1), 4);
+        pieDataList.add(entry1);
+        pieDataList.add(entry2);
+        pieDataList.add(entry3);
+        pieDataList.add(entry4);
+        PieDataSet pieDataSet = new PieDataSet(pieDataList, "Mode S");
+        pieDataSet.setSliceSpace(2.0f);
+        pieDataSet.setColors(new int[]{Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW});
+
+        List<String> xvals = new ArrayList<String>();
+        xvals.add("Bad");
+        xvals.add("Unknown ICAO");
+        xvals.add("1 Bit");
+        xvals.add("2 Bit");
+
+        PieData pieData = new PieData(xvals, pieDataSet);
+        pieChart.setData(pieData);
+        pieChart.invalidate();
     }
 
     private void handleAircraftDataResult(AircraftData aircraftData) {

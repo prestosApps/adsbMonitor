@@ -7,6 +7,7 @@
     <string name="main_label_lon">Lon:</string>
     <string name="stat_local_samples_processed">Samples Processed:</string>
     <string name="stat_local_samples_dropped">Samples Dropped:</string>
-    <string name="stat_local_modeac">modeac:</string>
-    <string name="stat_local_modes">modes:</string>
+    <string name="stat_local_modeac">Mode A/C messages decoded:</string>
+    <string name="stat_local_modes">Mode S preambles received:</string>
+    <string name="stat_local_modes_bad">Bad Mode S preambles:</string>
 </resources>

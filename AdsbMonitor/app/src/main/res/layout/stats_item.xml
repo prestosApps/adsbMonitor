@@ -78,4 +78,21 @@
         android:layout_alignParentRight="true"
         android:layout_alignTop="@id/txtStatLocalModes"
         android:text="value" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/stat_local_modes_bad"
+        android:id="@+id/txtStatLocalModesBad"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/txtStatLocalModes" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="value"
+        android:id="@+id/txtStatLocalModesBadValue"
+        android:layout_below="@+id/txtStatLocalModesValue"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/txtStatLocalModesBad" />
 </RelativeLayout>
