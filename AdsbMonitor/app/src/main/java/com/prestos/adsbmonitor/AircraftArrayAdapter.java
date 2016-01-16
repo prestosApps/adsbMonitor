@@ -21,6 +21,7 @@ public class AircraftArrayAdapter extends ArrayAdapter<Aircraft> {
 
     private TextView hexcode;
     private TextView flight;
+    private TextView altitude;
 
     public AircraftArrayAdapter(Activity context, List<Aircraft> objects) {
         super(context, R.layout.aircraft_list_item, objects);
@@ -38,9 +39,11 @@ public class AircraftArrayAdapter extends ArrayAdapter<Aircraft> {
 
         hexcode = (TextView) rowView.findViewById(R.id.aircraft_hexcode);
         flight = (TextView) rowView.findViewById(R.id.aircraft_flight);
+        altitude = (TextView) rowView.findViewById(R.id.aircraft_altitude);
 
-        hexcode.setText(aircraftList.get(position).getHex());
+        hexcode.setText(aircraftList.get(position).getHex().toUpperCase());
         flight.setText(aircraftList.get(position).getFlight());
+        altitude.setText(aircraftList.get(position).getAltitude());
 
         return rowView;
     }

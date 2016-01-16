@@ -53,7 +53,6 @@ public class AircraftActivityFragment extends Fragment {
     private class AircraftDataLoader extends AsyncTask<String, Void, AircraftData> {
 
         private String URI = "/dump1090/data/aircraft.json";
-        private String HISTORY = "/dump1090/data/history_{0}.json";
 
         @Override
         protected AircraftData doInBackground(String... voids) {

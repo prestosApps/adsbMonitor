@@ -10,7 +10,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:padding="2dp"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
         android:id="@+id/aircraft_flight"
@@ -18,5 +18,13 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/aircraft_hexcode"
         android:padding="2dp"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/aircraft_altitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/aircraft_flight"
+        android:padding="2dp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 </RelativeLayout>
