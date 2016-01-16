@@ -24,6 +24,7 @@ public class Aircraft {
     public static final String MESSAGES = "messages";
     public static final String SEEN = "seen";
     public static final String RSSI = "rssi";
+    public static final String MLAT = "mlat";
 
     private String hex;
     private String squawk;
@@ -40,6 +41,7 @@ public class Aircraft {
     private long messages;
     private double seen;
     private double rssi;
+    private boolean mlat = false;
 
     public Aircraft(JsonReader jsonReader) throws IOException {
         jsonReader.beginObject();
@@ -75,6 +77,9 @@ public class Aircraft {
                 seen = jsonReader.nextDouble();
             } else if (name.equals(RSSI)) {
                 rssi = jsonReader.nextDouble();
+            } else if (name.equals(MLAT)) {
+                mlat = true;
+                jsonReader.skipValue();
             } else {
                 jsonReader.skipValue();
             }
@@ -200,5 +205,13 @@ public class Aircraft {
 
     public void setRssi(double rssi) {
         this.rssi = rssi;
+    }
+
+    public boolean isMlat() {
+        return mlat;
+    }
+
+    public void setMlat(boolean mlat) {
+        this.mlat = mlat;
     }
 }

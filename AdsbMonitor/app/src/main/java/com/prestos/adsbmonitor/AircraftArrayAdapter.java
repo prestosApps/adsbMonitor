@@ -22,6 +22,10 @@ public class AircraftArrayAdapter extends ArrayAdapter<Aircraft> {
     private TextView hexcode;
     private TextView flight;
     private TextView altitude;
+    private TextView speed;
+    private TextView track;
+    private TextView vertical;
+    private TextView mlat;
 
     public AircraftArrayAdapter(Activity context, List<Aircraft> objects) {
         super(context, R.layout.aircraft_list_item, objects);
@@ -40,11 +44,39 @@ public class AircraftArrayAdapter extends ArrayAdapter<Aircraft> {
         hexcode = (TextView) rowView.findViewById(R.id.aircraft_hexcode);
         flight = (TextView) rowView.findViewById(R.id.aircraft_flight);
         altitude = (TextView) rowView.findViewById(R.id.aircraft_altitude);
+        speed = (TextView) rowView.findViewById(R.id.aircraft_speed);
+        track = (TextView) rowView.findViewById(R.id.aircraft_track);
+        vertical = (TextView) rowView.findViewById(R.id.aircraft_vertical);
+        mlat = (TextView) rowView.findViewById(R.id.aircraft_mlat);
 
         hexcode.setText(aircraftList.get(position).getHex().toUpperCase());
         flight.setText(aircraftList.get(position).getFlight());
         altitude.setText(aircraftList.get(position).getAltitude());
+        speed.setText(String.valueOf(aircraftList.get(position).getTrack()));
+        vertical.setText(getVerticalValue(aircraftList.get(position)));
+        mlat.setText(getMlat(aircraftList.get(position)));
 
         return rowView;
+    }
+
+    private String getMlat(Aircraft aircraft) {
+        String response = "";
+        if (aircraft.isMlat()) {
+            response = "mlat";
+        }
+        return response;
+    }
+
+    private String getVerticalValue(Aircraft aircraft) {
+        String response = null;
+        int value = aircraft.getVertRate();
+        if (value < 0) {
+            response = "descending";
+        } else if (value == 0) {
+            response = "level";
+        } else if (value > 0) {
+            response = "climbing";
+        }
+        return response;
     }
 }
