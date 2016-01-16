@@ -10,4 +10,6 @@
     <string name="stat_local_modeac">Mode A/C messages decoded:</string>
     <string name="stat_local_modes">Mode S preambles received:</string>
     <string name="stat_local_modes_bad">Bad Mode S preambles:</string>
+    <string name="title_activity_aircraft">AircraftActivity</string>
+    <string name="action_settings">Settings</string>
 </resources>
