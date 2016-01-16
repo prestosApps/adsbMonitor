@@ -3,6 +3,7 @@ package com.prestos.adsbmonitor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +42,7 @@ public class AircraftActivityFragment extends Fragment {
 
     private void handleAircraftDataResult(AircraftData aircraftData) {
         aircraftTotal.setText(aircraftData.getAircraftList().size() + " aircraft");
-        time.setText(aircraftData.getNowAsDate().toString());
+        time.setText(DateUtils.formatDateTime(getContext(), aircraftData.getNowAsDate().getTime(), DateUtils.FORMAT_SHOW_TIME));
         AircraftArrayAdapter adapter = new AircraftArrayAdapter(getActivity(), aircraftData.getAircraftList());
         aircraftListview.setAdapter(adapter);
     }
