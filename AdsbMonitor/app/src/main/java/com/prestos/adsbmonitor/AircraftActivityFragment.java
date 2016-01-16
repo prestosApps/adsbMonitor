@@ -35,13 +35,17 @@ public class AircraftActivityFragment extends Fragment implements SwipeRefreshLa
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onActivityCreated(savedInstanceState);
         aircraftListview = (ListView) getActivity().findViewById(R.id.aircraft_listview);
         aircraftTotal = (TextView) getActivity().findViewById(R.id.aircraft_total);
         time = (TextView) getActivity().findViewById(R.id.aircraft_time);
         swipeRefreshLayout = (SwipeRefreshLayout) getActivity().findViewById(R.id.aircraft_refreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
         new AircraftDataLoader().execute(HOSTNAME);
     }
 
