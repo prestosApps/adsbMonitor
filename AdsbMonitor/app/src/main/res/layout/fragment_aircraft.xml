@@ -3,28 +3,77 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/aircraft_total_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:padding="2dp"
+        android:text="@string/aircraft_total" />
+
+    <TextView
         android:id="@+id/aircraft_total"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/aircraft_total_label"
         android:padding="2dp" />
+
+    <TextView
+        android:id="@+id/aircraft_total_with_positions_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/aircraft_total"
+        android:padding="2dp"
+        android:text="@string/aircraft_total_with_positions" />
+
+    <TextView
+        android:id="@+id/aircraft_total_with_positions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/aircraft_total_with_positions_label"
+        android:padding="2dp" />
+
+    <TextView
+        android:id="@+id/aircraft_mlat_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/aircraft_total_with_positions"
+        android:padding="2dp"
+        android:text="@string/aircraft_mlat" />
+
+    <TextView
+        android:id="@+id/aircraft_mlat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/aircraft_mlat_label"
+        android:padding="2dp" />
+
+    <TextView
+        android:id="@+id/aircraft_last_update_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/aircraft_total_label"
+        android:padding="2dp"
+        android:text="@string/aircraft_last_update_label" />
 
     <TextView
         android:id="@+id/aircraft_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/aircraft_total"
+        android:layout_toRightOf="@id/aircraft_last_update_label"
+        android:layout_below="@id/aircraft_total_label"
         android:padding="2dp" />
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/aircraft_refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/aircraft_total">
+        android:layout_below="@+id/aircraft_last_update_label">
 
         <ListView
             android:id="@+id/aircraft_listview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="2dp"></ListView>
+            android:padding="2dp" />
     </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>

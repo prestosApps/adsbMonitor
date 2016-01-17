@@ -21,6 +21,8 @@ public class AircraftData {
     private Double now;
     private long messages;
     private List<Aircraft> aircraftList;
+    private int aircraftWithPositions = 0;
+    private int mlat = 0;
 
     public AircraftData(String jsonString) throws IOException {
         JsonReader jsonReader = new JsonReader(new StringReader(jsonString));
@@ -43,6 +45,16 @@ public class AircraftData {
             }
         }
         jsonReader.close();
+
+        //Determine how many of the aircraft have positions or are MLAT
+        for (Aircraft aircraft : aircraftList) {
+            if (aircraft.getLat() != 0) {
+                aircraftWithPositions++;
+            }
+            if (aircraft.isMlat()) {
+                mlat++;
+            }
+        }
     }
 
     public Double getNow() {
@@ -76,4 +88,19 @@ public class AircraftData {
         this.aircraftList = aircraftList;
     }
 
+    public int getAircraftWithPositions() {
+        return aircraftWithPositions;
+    }
+
+    public void setAircraftWithPositions(int aircraftWithPositions) {
+        this.aircraftWithPositions = aircraftWithPositions;
+    }
+
+    public int getMlat() {
+        return mlat;
+    }
+
+    public void setMlat(int mlat) {
+        this.mlat = mlat;
+    }
 }

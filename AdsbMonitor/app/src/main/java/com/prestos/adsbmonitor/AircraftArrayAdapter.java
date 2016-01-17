@@ -26,7 +26,6 @@ public class AircraftArrayAdapter extends ArrayAdapter<Aircraft> {
     private TextView speed;
     private TextView track;
     private TextView vertical;
-    private TextView mlat;
 
     public AircraftArrayAdapter(Activity context, List<Aircraft> objects) {
         super(context, R.layout.aircraft_list_item, objects);
@@ -48,14 +47,12 @@ public class AircraftArrayAdapter extends ArrayAdapter<Aircraft> {
         speed = (TextView) rowView.findViewById(R.id.aircraft_speed);
         track = (TextView) rowView.findViewById(R.id.aircraft_track);
         vertical = (TextView) rowView.findViewById(R.id.aircraft_vertical);
-        mlat = (TextView) rowView.findViewById(R.id.aircraft_mlat);
 
         hexcode.setText(aircraftList.get(position).getHex().toUpperCase());
         flight.setText(aircraftList.get(position).getFlight());
         altitude.setText(aircraftList.get(position).getAltitude());
-        speed.setText(String.valueOf(aircraftList.get(position).getTrack()));
+        speed.setText(String.valueOf(aircraftList.get(position).getSpeed()));
         vertical.setText(getVerticalValue(aircraftList.get(position)));
-        mlat.setText(getMlat(aircraftList.get(position)));
 
         /*
         Set row colour based on content. Mlat = blue, has position = green, everything else is white
@@ -69,14 +66,6 @@ public class AircraftArrayAdapter extends ArrayAdapter<Aircraft> {
         }
 
         return rowView;
-    }
-
-    private String getMlat(Aircraft aircraft) {
-        String response = "";
-        if (aircraft.isMlat()) {
-            response = "mlat";
-        }
-        return response;
     }
 
     private String getVerticalValue(Aircraft aircraft) {

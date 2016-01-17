@@ -24,6 +24,8 @@ public class AircraftActivityFragment extends Fragment implements SwipeRefreshLa
     private static final String HOSTNAME = "192.168.1.79";
     private ListView aircraftListview;
     private TextView aircraftTotal;
+    private TextView aircraftWithPositions;
+    private TextView mlat;
     private TextView time;
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -38,6 +40,8 @@ public class AircraftActivityFragment extends Fragment implements SwipeRefreshLa
         super.onActivityCreated(savedInstanceState);
         aircraftListview = (ListView) getActivity().findViewById(R.id.aircraft_listview);
         aircraftTotal = (TextView) getActivity().findViewById(R.id.aircraft_total);
+        aircraftWithPositions = (TextView) getActivity().findViewById(R.id.aircraft_total_with_positions);
+        mlat = (TextView) getActivity().findViewById(R.id.aircraft_mlat);
         time = (TextView) getActivity().findViewById(R.id.aircraft_time);
         swipeRefreshLayout = (SwipeRefreshLayout) getActivity().findViewById(R.id.aircraft_refreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -51,7 +55,9 @@ public class AircraftActivityFragment extends Fragment implements SwipeRefreshLa
 
     private void handleAircraftDataResult(AircraftData aircraftData) {
         swipeRefreshLayout.setRefreshing(false);
-        aircraftTotal.setText(aircraftData.getAircraftList().size() + " aircraft");
+        aircraftTotal.setText(String.valueOf(aircraftData.getAircraftList().size()));
+        aircraftWithPositions.setText(String.valueOf(aircraftData.getAircraftWithPositions()));
+        mlat.setText(String.valueOf(aircraftData.getMlat()));
         time.setText(DateUtils.formatDateTime(getContext(), aircraftData.getNowAsDate().getTime(), DateUtils.FORMAT_SHOW_TIME));
         AircraftArrayAdapter adapter = new AircraftArrayAdapter(getActivity(), aircraftData.getAircraftList());
         aircraftListview.setAdapter(adapter);
