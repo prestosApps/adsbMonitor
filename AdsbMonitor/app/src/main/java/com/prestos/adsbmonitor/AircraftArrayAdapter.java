@@ -22,6 +22,7 @@ public class AircraftArrayAdapter extends ArrayAdapter<Aircraft> {
 
     private TextView hexcode;
     private TextView flight;
+    private TextView squawk;
     private TextView altitude;
     private TextView speed;
     private TextView track;
@@ -43,25 +44,37 @@ public class AircraftArrayAdapter extends ArrayAdapter<Aircraft> {
 
         hexcode = (TextView) rowView.findViewById(R.id.aircraft_hexcode);
         flight = (TextView) rowView.findViewById(R.id.aircraft_flight);
+        squawk = (TextView) rowView.findViewById(R.id.aircraft_squawk);
+
         altitude = (TextView) rowView.findViewById(R.id.aircraft_altitude);
         speed = (TextView) rowView.findViewById(R.id.aircraft_speed);
-        track = (TextView) rowView.findViewById(R.id.aircraft_track);
+
         vertical = (TextView) rowView.findViewById(R.id.aircraft_vertical);
 
+        track = (TextView) rowView.findViewById(R.id.aircraft_track);
+
+        /*
+        Set values for the required fields
+         */
         hexcode.setText(aircraftList.get(position).getHex().toUpperCase());
         flight.setText(aircraftList.get(position).getFlight());
+        squawk.setText(aircraftList.get(position).getSquawk());
+
         altitude.setText(aircraftList.get(position).getAltitude());
         speed.setText(String.valueOf(aircraftList.get(position).getSpeed()));
+
         vertical.setText(getVerticalValue(aircraftList.get(position)));
+
+        track.setText(String.valueOf(aircraftList.get(position).getTrack()));
 
         /*
         Set row colour based on content. Mlat = blue, has position = green, everything else is white
          */
         if (aircraftList.get(position).isMlat()) {
             rowView.setBackgroundColor(Color.rgb(213, 213, 255));
-        } else if(aircraftList.get(position).getLat() != 0){
+        } else if (aircraftList.get(position).getLat() != 0) {
             rowView.setBackgroundColor(Color.rgb(213, 255, 213));
-        } else{
+        } else {
             rowView.setBackgroundColor(Color.rgb(255, 255, 255));
         }
 
