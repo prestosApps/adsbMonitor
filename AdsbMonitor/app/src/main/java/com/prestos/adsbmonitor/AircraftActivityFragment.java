@@ -74,9 +74,6 @@ public class AircraftActivityFragment extends Fragment implements SwipeRefreshLa
             String receiverUrl = "http://" + voids[0] + URI;
             AircraftData aircraftData = null;
             try {
-                /*
-                Now get the current data and add the historic data
-                 */
                 aircraftData = new AircraftData(DataHandler.getData(receiverUrl));
             } catch (IOException e) {
                 Log.e(AircraftActivityFragment.AircraftDataLoader.class.getName(), "AAaarrggh!!", e);
