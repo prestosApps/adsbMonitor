@@ -16,4 +16,6 @@
     <string name="aircraft_total_with_positions">With Positions:</string>
     <string name="aircraft_mlat">MLAT:</string>
     <string name="aircraft_last_update_label">Last update:</string>
+    <string name="prefs_ip_title">IP Address</string>
+    <string name="prefs_ip_summary">IP Address for the machine that Dump1090 is running on</string>
 </resources>

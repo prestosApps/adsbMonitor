@@ -1,7 +1,9 @@
 package com.prestos.adsbmonitor;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.format.DateUtils;
@@ -38,6 +40,7 @@ public class AircraftActivityFragment extends Fragment implements SwipeRefreshLa
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         aircraftListview = (ListView) getActivity().findViewById(R.id.aircraft_listview);
         aircraftTotal = (TextView) getActivity().findViewById(R.id.aircraft_total);
         aircraftWithPositions = (TextView) getActivity().findViewById(R.id.aircraft_total_with_positions);
