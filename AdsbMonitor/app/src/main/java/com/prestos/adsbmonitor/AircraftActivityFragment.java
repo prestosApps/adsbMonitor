@@ -1,5 +1,6 @@
 package com.prestos.adsbmonitor;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -23,7 +24,7 @@ import java.io.IOException;
  */
 public class AircraftActivityFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    private static final String HOSTNAME = "192.168.1.79";
+    private String hostname = null;
     private ListView aircraftListview;
     private TextView aircraftTotal;
     private TextView aircraftWithPositions;
@@ -40,6 +41,9 @@ public class AircraftActivityFragment extends Fragment implements SwipeRefreshLa
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        SharedPreferences prefs = getActivity().getPreferences(Context.MODE_PRIVATE);
+        hostname = prefs.getString("prefs_ip_address", null);
+        Log.d(AircraftActivityFragment.class.getName(), "Using IP Address: " + hostname);
 
         aircraftListview = (ListView) getActivity().findViewById(R.id.aircraft_listview);
         aircraftTotal = (TextView) getActivity().findViewById(R.id.aircraft_total);
@@ -53,7 +57,7 @@ public class AircraftActivityFragment extends Fragment implements SwipeRefreshLa
     @Override
     public void onStart() {
         super.onStart();
-        new AircraftDataLoader().execute(HOSTNAME);
+        new AircraftDataLoader().execute(hostname);
     }
 
     private void handleAircraftDataResult(AircraftData aircraftData) {
@@ -68,7 +72,7 @@ public class AircraftActivityFragment extends Fragment implements SwipeRefreshLa
 
     @Override
     public void onRefresh() {
-        new AircraftDataLoader().execute(HOSTNAME);
+        new AircraftDataLoader().execute(hostname);
     }
 
     /*

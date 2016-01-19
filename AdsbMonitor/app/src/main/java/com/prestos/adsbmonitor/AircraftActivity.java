@@ -1,5 +1,6 @@
 package com.prestos.adsbmonitor;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -19,7 +20,7 @@ public class AircraftActivity extends AppCompatActivity implements IpAddressDial
 
         if (findViewById(R.id.fragment_container) != null) {
 
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
             if (prefs.contains("prefs_ip_address")) {
                 Log.d(AircraftActivity.class.getName(), "found IP address preferences: " + prefs.getString("prefs_ip_address", null));
                 AircraftActivityFragment aircraftActivityFragment = new AircraftActivityFragment();
@@ -43,7 +44,10 @@ public class AircraftActivity extends AppCompatActivity implements IpAddressDial
     @Override
     public void onDialogClick(String ipAddress) {
         Log.d(AircraftActivity.class.getName(), "Deal with " + ipAddress);
-        IpCheckFragment ipCheckFragment = (IpCheckFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-        ipCheckFragment.checkIpAddress(ipAddress);
+        SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("prefs_ip_address", ipAddress).commit();
+        AircraftActivityFragment aircraftActivityFragment = new AircraftActivityFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, aircraftActivityFragment).commit();
     }
 }
