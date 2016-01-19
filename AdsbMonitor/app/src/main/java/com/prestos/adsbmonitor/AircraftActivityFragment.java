@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.Toolbar;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,6 +42,7 @@ public class AircraftActivityFragment extends Fragment implements SwipeRefreshLa
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         SharedPreferences prefs = getActivity().getPreferences(Context.MODE_PRIVATE);
         hostname = prefs.getString("prefs_ip_address", null);
         Log.d(AircraftActivityFragment.class.getName(), "Using IP Address: " + hostname);

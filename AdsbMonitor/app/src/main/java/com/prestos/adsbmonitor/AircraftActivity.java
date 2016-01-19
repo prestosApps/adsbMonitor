@@ -3,8 +3,8 @@ package com.prestos.adsbmonitor;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 public class AircraftActivity extends AppCompatActivity implements IpAddressDialogFragment.IpAddressDialogListener {
