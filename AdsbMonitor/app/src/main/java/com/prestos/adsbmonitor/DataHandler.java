@@ -1,5 +1,7 @@
 package com.prestos.adsbmonitor;
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,25 +13,30 @@ import java.net.URL;
  */
 public class DataHandler {
 
-    public static String getData(String uri) throws IOException {
+    public static String getData(String uri) throws ApplicationException {
         URL url = null;
         HttpURLConnection urlConnection = null;
         StringBuilder sb = null;
 
-        url = new URL(uri);
-        urlConnection = (HttpURLConnection) url.openConnection();
+        try {
+            url = new URL(uri);
+            urlConnection = (HttpURLConnection) url.openConnection();
 
-        sb = new StringBuilder();
-        InputStreamReader isr = new InputStreamReader(urlConnection.getInputStream());
-        BufferedReader br = new BufferedReader(isr);
-        String output = br.readLine();
-        while (output != null) {
-            sb.append(output);
-            output = br.readLine();
+            sb = new StringBuilder();
+            InputStreamReader isr = new InputStreamReader(urlConnection.getInputStream());
+            BufferedReader br = new BufferedReader(isr);
+            String output = br.readLine();
+            while (output != null) {
+                sb.append(output);
+                output = br.readLine();
+            }
+            br.close();
+            isr.close();
+            urlConnection.disconnect();
+        } catch (IOException ex) {
+            Log.e(DataHandler.class.getName(), "Error occurred whilst trying to connect to " + uri, ex);
+            throw new ApplicationException("Unable to connect", Errors.CONNECTION_ERROR, ex);
         }
-        br.close();
-        isr.close();
-        urlConnection.disconnect();
         return sb.toString();
     }
 

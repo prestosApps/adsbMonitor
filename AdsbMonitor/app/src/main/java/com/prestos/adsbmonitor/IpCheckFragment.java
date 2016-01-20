@@ -1,6 +1,5 @@
 package com.prestos.adsbmonitor;
 
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,8 +11,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.prestos.adsbmonitor.model.Receiver;
-
-import java.io.IOException;
 
 /**
  * Created by prestos on 18/01/16.
@@ -48,11 +45,11 @@ public class IpCheckFragment extends Fragment {
         protected Receiver doInBackground(String... voids) {
             String receiverUrl = "http://" + voids[0] + URI;
             Receiver receiver = null;
-            try {
-                receiver = new Receiver(DataHandler.getData(receiverUrl));
-            } catch (IOException e) {
-                Log.e(IpCheckFragment.ReceiverDataLoader.class.getName(), "AAaarrggh!!", e);
-            }
+//            try {
+//                receiver = new Receiver(DataHandler.getData(receiverUrl));
+//            } catch (IOException e) {
+//                Log.e(IpCheckFragment.ReceiverDataLoader.class.getName(), "AAaarrggh!!", e);
+//            }
             return receiver;
         }
 

@@ -4,10 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.Toolbar;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,8 +15,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.prestos.adsbmonitor.model.AircraftData;
-
-import java.io.IOException;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -32,6 +28,21 @@ public class AircraftActivityFragment extends Fragment implements SwipeRefreshLa
     private TextView mlat;
     private TextView time;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private ApplicationException applicationException;
+
+    private ApplicationErrorListener mListener;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            // Instantiate the NoticeDialogListener so we can send events to the host
+            mListener = (ApplicationErrorListener) context;
+        } catch (ClassCastException e) {
+            // The activity doesn't implement the interface, throw exception
+            throw new ClassCastException(context.toString() + " must implement ApplicationErrorListener");
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,13 +74,17 @@ public class AircraftActivityFragment extends Fragment implements SwipeRefreshLa
     }
 
     private void handleAircraftDataResult(AircraftData aircraftData) {
-        swipeRefreshLayout.setRefreshing(false);
-        aircraftTotal.setText(String.valueOf(aircraftData.getAircraftList().size()));
-        aircraftWithPositions.setText(String.valueOf(aircraftData.getAircraftWithPositions()));
-        mlat.setText(String.valueOf(aircraftData.getMlat()));
-        time.setText(DateUtils.formatDateTime(getContext(), aircraftData.getNowAsDate().getTime(), DateUtils.FORMAT_SHOW_TIME));
-        AircraftArrayAdapter adapter = new AircraftArrayAdapter(getActivity(), aircraftData.getAircraftList());
-        aircraftListview.setAdapter(adapter);
+        if (applicationException == null) {
+            swipeRefreshLayout.setRefreshing(false);
+            aircraftTotal.setText(String.valueOf(aircraftData.getAircraftList().size()));
+            aircraftWithPositions.setText(String.valueOf(aircraftData.getAircraftWithPositions()));
+            mlat.setText(String.valueOf(aircraftData.getMlat()));
+            time.setText(DateUtils.formatDateTime(getContext(), aircraftData.getNowAsDate().getTime(), DateUtils.FORMAT_SHOW_TIME));
+            AircraftArrayAdapter adapter = new AircraftArrayAdapter(getActivity(), aircraftData.getAircraftList());
+            aircraftListview.setAdapter(adapter);
+        } else {
+            mListener.onApplicationError(applicationException);
+        }
     }
 
     @Override
@@ -88,10 +103,12 @@ public class AircraftActivityFragment extends Fragment implements SwipeRefreshLa
         protected AircraftData doInBackground(String... voids) {
             String receiverUrl = "http://" + voids[0] + URI;
             AircraftData aircraftData = null;
+            applicationException = null;
             try {
                 aircraftData = new AircraftData(DataHandler.getData(receiverUrl));
-            } catch (IOException e) {
-                Log.e(AircraftActivityFragment.AircraftDataLoader.class.getName(), "AAaarrggh!!", e);
+            } catch (ApplicationException ex) {
+                Log.e(AircraftActivityFragment.AircraftDataLoader.class.getName(), "Error trying to get aircraft data from " + receiverUrl, ex);
+                applicationException = ex;
             }
             return aircraftData;
         }

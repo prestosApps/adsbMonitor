@@ -1,77 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" android:padding="2dp">
+    android:layout_height="wrap_content"
+    android:padding="2dp">
 
-    <RelativeLayout
-        android:id="@+id/aircraft_id_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/aircraft_hexcode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:padding="2dp"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <TextView
-            android:id="@+id/aircraft_flight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/aircraft_hexcode"
-            android:padding="2dp"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <TextView
-            android:id="@+id/aircraft_squawk"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/aircraft_flight"
-            android:padding="2dp"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/aircraft_stuff"
+    <TextView
+        android:id="@+id/aircraft_hexcode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/aircraft_id_layout">
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:padding="2dp" />
 
-        <TextView
-            android:id="@+id/aircraft_altitude"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="2dp"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+    <TextView
+        android:id="@+id/aircraft_flight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/aircraft_hexcode"
+        android:padding="2dp" />
 
-        <TextView
-            android:id="@+id/aircraft_speed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/aircraft_altitude"
-            android:padding="2dp"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+    <TextView
+        android:id="@+id/aircraft_squawk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/aircraft_flight"
+        android:padding="2dp" />
 
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/aircraft_altitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/aircraft_squawk"
+        android:padding="2dp" />
+
+    <TextView
+        android:id="@+id/aircraft_speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/aircraft_altitude"
+        android:padding="2dp" />
 
     <TextView
         android:id="@+id/aircraft_vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/aircraft_stuff"
-        android:padding="2dp"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:layout_toRightOf="@+id/aircraft_speed"
+        android:padding="2dp" />
 
     <TextView
         android:id="@+id/aircraft_track"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/aircraft_vertical"
-        android:padding="2dp"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:padding="2dp" />
 
 </RelativeLayout>

@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
-public class AircraftActivity extends AppCompatActivity implements IpAddressDialogFragment.IpAddressDialogListener {
+public class AircraftActivity extends AppCompatActivity implements IpAddressDialogFragment.IpAddressDialogListener, ApplicationErrorListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +27,8 @@ public class AircraftActivity extends AppCompatActivity implements IpAddressDial
                 getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, aircraftActivityFragment).commit();
             } else {
                 Log.d(AircraftActivity.class.getName(), "Can not find prefs_ip_address, so need to get it");
-                IpCheckFragment ipCheckFragment = new IpCheckFragment();
-                getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, ipCheckFragment).commit();
+//                IpCheckFragment ipCheckFragment = new IpCheckFragment();
+//                getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, ipCheckFragment).commit();
                 createIpAddressDialog();
             }
         } else {
@@ -49,5 +49,10 @@ public class AircraftActivity extends AppCompatActivity implements IpAddressDial
         editor.putString("prefs_ip_address", ipAddress).commit();
         AircraftActivityFragment aircraftActivityFragment = new AircraftActivityFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, aircraftActivityFragment).commit();
+    }
+
+    @Override
+    public void onApplicationError(ApplicationException ex) {
+        Log.e(AircraftActivity.class.getName(), "Handling error: " + ex.getError());
     }
 }

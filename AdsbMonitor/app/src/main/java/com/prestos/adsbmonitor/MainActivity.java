@@ -52,11 +52,11 @@ public class MainActivity extends AppCompatActivity {
         protected Receiver doInBackground(String... voids) {
             String receiverUrl = "http://" + voids[0] + URI;
             Receiver receiver = null;
-            try {
-                receiver = new Receiver(DataHandler.getData(receiverUrl));
-            } catch (IOException e) {
-                Log.e(MainActivity.ReceiverDataLoader.class.getName(), "AAaarrggh!!", e);
-            }
+//            try {
+//                receiver = new Receiver(DataHandler.getData(receiverUrl));
+//            } catch (IOException e) {
+//                Log.e(MainActivity.ReceiverDataLoader.class.getName(), "AAaarrggh!!", e);
+//            }
             return receiver;
         }
 
@@ -79,11 +79,11 @@ public class MainActivity extends AppCompatActivity {
         protected Stats doInBackground(String... voids) {
             String receiverUrl = "http://" + voids[0] + URI;
             Stats stats = null;
-            try {
-                stats = new Stats(DataHandler.getData(receiverUrl));
-            } catch (IOException e) {
-                Log.e(MainActivity.ReceiverDataLoader.class.getName(), "AAaarrggh!!", e);
-            }
+//            try {
+//                stats = new Stats(DataHandler.getData(receiverUrl));
+//            } catch (IOException e) {
+//                Log.e(MainActivity.ReceiverDataLoader.class.getName(), "AAaarrggh!!", e);
+//            }
             return stats;
         }
 
@@ -103,14 +103,14 @@ public class MainActivity extends AppCompatActivity {
         protected AircraftData doInBackground(String... voids) {
             String receiverUrl = "http://" + voids[0] + URI;
             AircraftData aircraftData = null;
-            try {
-                /*
-                Now get the current data and add the historic data
-                 */
-                aircraftData = new AircraftData(DataHandler.getData(receiverUrl));
-            } catch (IOException e) {
-                Log.e(MainActivity.ReceiverDataLoader.class.getName(), "AAaarrggh!!", e);
-            }
+//            try {
+//                /*
+//                Now get the current data and add the historic data
+//                 */
+//                aircraftData = new AircraftData(DataHandler.getData(receiverUrl));
+//            } catch (IOException e) {
+//                Log.e(MainActivity.ReceiverDataLoader.class.getName(), "AAaarrggh!!", e);
+//            }
             return aircraftData;
         }
 

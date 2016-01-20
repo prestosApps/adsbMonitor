@@ -1,6 +1,10 @@
 package com.prestos.adsbmonitor.model;
 
 import android.util.JsonReader;
+import android.util.Log;
+
+import com.prestos.adsbmonitor.ApplicationException;
+import com.prestos.adsbmonitor.Errors;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -24,27 +28,33 @@ public class AircraftData {
     private int aircraftWithPositions = 0;
     private int mlat = 0;
 
-    public AircraftData(String jsonString) throws IOException {
+    public AircraftData(String jsonString) throws ApplicationException {
         JsonReader jsonReader = new JsonReader(new StringReader(jsonString));
-        jsonReader.beginObject();
-        while (jsonReader.hasNext()) {
-            String name = jsonReader.nextName();
-            if (name.equals(MESSAGES)) {
-                messages = jsonReader.nextLong();
-            } else if (name.equals(AIRCRAFT)) {
-                aircraftList = new ArrayList<Aircraft>();
-                jsonReader.beginArray();
-                while (jsonReader.hasNext()) {
-                    aircraftList.add(new Aircraft(jsonReader));
+
+        try {
+            jsonReader.beginObject();
+            while (jsonReader.hasNext()) {
+                String name = jsonReader.nextName();
+                if (name.equals(MESSAGES)) {
+                    messages = jsonReader.nextLong();
+                } else if (name.equals(AIRCRAFT)) {
+                    aircraftList = new ArrayList<Aircraft>();
+                    jsonReader.beginArray();
+                    while (jsonReader.hasNext()) {
+                        aircraftList.add(new Aircraft(jsonReader));
+                    }
+                    jsonReader.endArray();
+                } else if (name.equals(NOW)) {
+                    now = jsonReader.nextDouble();
+                } else {
+                    jsonReader.skipValue();
                 }
-                jsonReader.endArray();
-            } else if (name.equals(NOW)) {
-                now = jsonReader.nextDouble();
-            } else {
-                jsonReader.skipValue();
             }
+            jsonReader.close();
+        } catch (IOException ex) {
+            Log.e(AircraftData.class.getName(), "Error occurred whilst trying to parse JSON string " + jsonString, ex);
+            throw new ApplicationException("Unable to parse JSON", Errors.JSON_PARSING_ERROR, ex);
         }
-        jsonReader.close();
 
         //Determine how many of the aircraft have positions or are MLAT
         for (Aircraft aircraft : aircraftList) {
