@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 public class AircraftActivity extends AppCompatActivity implements IpAddressDialogFragment.IpAddressDialogListener, ApplicationErrorListener {
@@ -44,6 +43,12 @@ public class AircraftActivity extends AppCompatActivity implements IpAddressDial
     @Override
     public void onDialogClick(String ipAddress) {
         Log.d(AircraftActivity.class.getName(), "Deal with " + ipAddress);
+
+        if (!ipAddress.matches("\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b")) {
+            Log.d(AircraftActivity.class.getName(), "Not a valid IP address");
+            createIpAddressDialog();
+        }
+
         SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("prefs_ip_address", ipAddress).commit();
