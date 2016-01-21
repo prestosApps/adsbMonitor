@@ -29,9 +29,8 @@ public class AircraftData {
     private int mlat = 0;
 
     public AircraftData(String jsonString) throws ApplicationException {
-        JsonReader jsonReader = new JsonReader(new StringReader(jsonString));
-
         try {
+            JsonReader jsonReader = new JsonReader(new StringReader(jsonString));
             jsonReader.beginObject();
             while (jsonReader.hasNext()) {
                 String name = jsonReader.nextName();
@@ -52,6 +51,9 @@ public class AircraftData {
             }
             jsonReader.close();
         } catch (IOException ex) {
+            Log.e(AircraftData.class.getName(), "Error occurred whilst trying to parse JSON string " + jsonString, ex);
+            throw new ApplicationException("Unable to parse JSON", Errors.JSON_PARSING_ERROR, ex);
+        } catch (NullPointerException ex) {
             Log.e(AircraftData.class.getName(), "Error occurred whilst trying to parse JSON string " + jsonString, ex);
             throw new ApplicationException("Unable to parse JSON", Errors.JSON_PARSING_ERROR, ex);
         }
