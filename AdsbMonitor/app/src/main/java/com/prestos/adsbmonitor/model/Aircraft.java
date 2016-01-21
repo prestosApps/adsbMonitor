@@ -1,6 +1,10 @@
 package com.prestos.adsbmonitor.model;
 
 import android.util.JsonReader;
+import android.util.Log;
+
+import com.prestos.adsbmonitor.ApplicationException;
+import com.prestos.adsbmonitor.Errors;
 
 import java.io.IOException;
 
@@ -43,48 +47,53 @@ public class Aircraft {
     private double rssi;
     private boolean mlat = false;
 
-    public Aircraft(JsonReader jsonReader) throws IOException {
-        jsonReader.beginObject();
-        while (jsonReader.hasNext()) {
-            String name = jsonReader.nextName();
-            if (name.equals(HEX)) {
-                hex = jsonReader.nextString();
-            } else if (name.equals(SQUAWK)) {
-                squawk = jsonReader.nextString();
-            } else if (name.equals(FLIGHT)) {
-                flight = jsonReader.nextString();
-            } else if (name.equals(LAT)) {
-                lat = jsonReader.nextDouble();
-            } else if (name.equals(LON)) {
-                lon = jsonReader.nextDouble();
-            } else if (name.equals(NUCP)) {
-                nucp = jsonReader.nextInt();
-            } else if (name.equals(SEEN_POS)) {
-                seenPos = jsonReader.nextDouble();
-            } else if (name.equals(ALTITUDE)) {
-                altitude = jsonReader.nextString();
-            } else if (name.equals(VERT_RATE)) {
-                vertRate = jsonReader.nextInt();
-            } else if (name.equals(TRACK)) {
-                track = jsonReader.nextInt();
-            } else if (name.equals(SPEED)) {
-                speed = jsonReader.nextInt();
-            } else if (name.equals(CATEGORY)) {
-                category = jsonReader.nextString();
-            } else if (name.equals(MESSAGES)) {
-                messages = jsonReader.nextLong();
-            } else if (name.equals(SEEN)) {
-                seen = jsonReader.nextDouble();
-            } else if (name.equals(RSSI)) {
-                rssi = jsonReader.nextDouble();
-            } else if (name.equals(MLAT)) {
-                mlat = true;
-                jsonReader.skipValue();
-            } else {
-                jsonReader.skipValue();
+    public Aircraft(JsonReader jsonReader) throws ApplicationException {
+        try {
+            jsonReader.beginObject();
+            while (jsonReader.hasNext()) {
+                String name = jsonReader.nextName();
+                if (name.equals(HEX)) {
+                    hex = jsonReader.nextString();
+                } else if (name.equals(SQUAWK)) {
+                    squawk = jsonReader.nextString();
+                } else if (name.equals(FLIGHT)) {
+                    flight = jsonReader.nextString();
+                } else if (name.equals(LAT)) {
+                    lat = jsonReader.nextDouble();
+                } else if (name.equals(LON)) {
+                    lon = jsonReader.nextDouble();
+                } else if (name.equals(NUCP)) {
+                    nucp = jsonReader.nextInt();
+                } else if (name.equals(SEEN_POS)) {
+                    seenPos = jsonReader.nextDouble();
+                } else if (name.equals(ALTITUDE)) {
+                    altitude = jsonReader.nextString();
+                } else if (name.equals(VERT_RATE)) {
+                    vertRate = jsonReader.nextInt();
+                } else if (name.equals(TRACK)) {
+                    track = jsonReader.nextInt();
+                } else if (name.equals(SPEED)) {
+                    speed = jsonReader.nextInt();
+                } else if (name.equals(CATEGORY)) {
+                    category = jsonReader.nextString();
+                } else if (name.equals(MESSAGES)) {
+                    messages = jsonReader.nextLong();
+                } else if (name.equals(SEEN)) {
+                    seen = jsonReader.nextDouble();
+                } else if (name.equals(RSSI)) {
+                    rssi = jsonReader.nextDouble();
+                } else if (name.equals(MLAT)) {
+                    mlat = true;
+                    jsonReader.skipValue();
+                } else {
+                    jsonReader.skipValue();
+                }
             }
+            jsonReader.endObject();
+        } catch (IOException e) {
+            Log.e(Aircraft.class.getName(), "Error occurred whilst trying to parse JSON object", e);
+            throw new ApplicationException("Unable to parse JSON", Errors.JSON_PARSING_ERROR, e);
         }
-        jsonReader.endObject();
     }
 
     public String getHex() {
