@@ -1,7 +1,6 @@
 package com.prestos.adsbmonitor;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,12 +69,13 @@ public class AircraftArrayAdapter extends ArrayAdapter<Aircraft> {
         /*
         Set row colour based on content. Mlat = blue, has position = green, everything else is white
          */
+        AndroidObfuscator obfuscateThis = new AndroidObfuscator();
         if (aircraftList.get(position).isMlat()) {
-            rowView.setBackgroundColor(Color.rgb(213, 213, 255));
+            rowView.setBackgroundColor(obfuscateThis.getColour(213, 213, 255));
         } else if (aircraftList.get(position).getLat() != 0) {
-            rowView.setBackgroundColor(Color.rgb(213, 255, 213));
+            rowView.setBackgroundColor(obfuscateThis.getColour(213, 255, 213));
         } else {
-            rowView.setBackgroundColor(Color.rgb(255, 255, 255));
+            rowView.setBackgroundColor(obfuscateThis.getColour(255, 255, 255));
         }
 
         return rowView;
