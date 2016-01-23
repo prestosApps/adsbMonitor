@@ -80,7 +80,7 @@ public class AircraftActivityFragment extends Fragment implements SwipeRefreshLa
             aircraftWithPositions.setText(String.valueOf(aircraftData.getAircraftWithPositions()));
             mlat.setText(String.valueOf(aircraftData.getMlat()));
             time.setText(DateUtils.formatDateTime(getContext(), aircraftData.getNowAsDate().getTime(), DateUtils.FORMAT_SHOW_TIME));
-            AircraftArrayAdapter adapter = new AircraftArrayAdapter(getActivity(), aircraftData.getAircraftList());
+            AircraftArrayAdapter adapter = new AircraftArrayAdapter(getActivity(), aircraftData.getAircraftList(), new AndroidObfuscator());
             aircraftListview.setAdapter(adapter);
         } else {
             mListener.onApplicationError(applicationException);

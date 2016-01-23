@@ -18,6 +18,7 @@ public class AircraftArrayAdapter extends ArrayAdapter<Aircraft> {
 
     private List<Aircraft> aircraftList;
     private Activity context;
+    private AndroidObfuscator androidObfuscator;
 
     private TextView hexcode;
     private TextView flight;
@@ -27,10 +28,11 @@ public class AircraftArrayAdapter extends ArrayAdapter<Aircraft> {
     private TextView track;
     private TextView vertical;
 
-    public AircraftArrayAdapter(Activity context, List<Aircraft> objects) {
+    public AircraftArrayAdapter(Activity context, List<Aircraft> objects, AndroidObfuscator androidObfuscator) {
         super(context, R.layout.aircraft_list_item, objects);
         aircraftList = objects;
         this.context = context;
+        this.androidObfuscator = androidObfuscator;
     }
 
     @Override
@@ -69,13 +71,12 @@ public class AircraftArrayAdapter extends ArrayAdapter<Aircraft> {
         /*
         Set row colour based on content. Mlat = blue, has position = green, everything else is white
          */
-        AndroidObfuscator obfuscateThis = new AndroidObfuscator();
         if (aircraftList.get(position).isMlat()) {
-            rowView.setBackgroundColor(obfuscateThis.getColour(213, 213, 255));
+            rowView.setBackgroundColor(androidObfuscator.getColour(213, 213, 255));
         } else if (aircraftList.get(position).getLat() != 0) {
-            rowView.setBackgroundColor(obfuscateThis.getColour(213, 255, 213));
+            rowView.setBackgroundColor(androidObfuscator.getColour(213, 255, 213));
         } else {
-            rowView.setBackgroundColor(obfuscateThis.getColour(255, 255, 255));
+            rowView.setBackgroundColor(androidObfuscator.getColour(255, 255, 255));
         }
 
         return rowView;

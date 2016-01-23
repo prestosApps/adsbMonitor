@@ -29,6 +29,8 @@ public class AircraftArrayAdapterTest {
     private LayoutInflater mockLayoutInflater;
     @Mock
     private View responseView;
+    @Mock
+    private AndroidObfuscator androidObfuscator;
 
     private List<Aircraft> aircraftList;
     private AircraftArrayAdapter aircraftArrayAdapter;
@@ -40,7 +42,7 @@ public class AircraftArrayAdapterTest {
         when(mockLayoutInflater.inflate(R.layout.aircraft_list_item, null)).thenReturn(responseView);
 
         aircraftList = new ArrayList<Aircraft>();
-        aircraftArrayAdapter = new AircraftArrayAdapter(aircraftActivity, aircraftList);
+        aircraftArrayAdapter = new AircraftArrayAdapter(aircraftActivity, aircraftList, androidObfuscator);
     }
 
     @Test
