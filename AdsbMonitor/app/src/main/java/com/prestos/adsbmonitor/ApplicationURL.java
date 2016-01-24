@@ -12,11 +12,21 @@ public class ApplicationURL {
 
     private URL url;
 
-    public ApplicationURL(String url) throws MalformedURLException {
-        this.url = new URL(url);
+    public ApplicationURL(String url) throws ApplicationException {
+        try {
+            this.url = new URL(url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            throw new ApplicationException("cock", Errors.CONNECTION_ERROR, e);
+        }
     }
 
-    public URLConnection openConnection() throws IOException {
-        return url.openConnection();
+    public URLConnection openConnection() throws ApplicationException {
+        try {
+            return url.openConnection();
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new ApplicationException("cock", Errors.CONNECTION_ERROR, e);
+        }
     }
 }

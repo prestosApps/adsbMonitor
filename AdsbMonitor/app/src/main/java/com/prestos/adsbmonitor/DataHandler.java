@@ -13,14 +13,12 @@ import java.net.URL;
  */
 public class DataHandler {
 
-    public static String getData(String uri) throws ApplicationException {
-        URL url = null;
-        HttpURLConnection urlConnection = null;
-        StringBuilder sb = null;
+    public static String getData(ApplicationURL applicationURL) throws ApplicationException {
+        HttpURLConnection urlConnection;
+        StringBuilder sb;
 
         try {
-            url = new URL(uri);
-            urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection = (HttpURLConnection) applicationURL.openConnection();
 
             sb = new StringBuilder();
             InputStreamReader isr = new InputStreamReader(urlConnection.getInputStream());
@@ -34,7 +32,6 @@ public class DataHandler {
             isr.close();
             urlConnection.disconnect();
         } catch (IOException ex) {
-            Log.e(DataHandler.class.getName(), "Error occurred whilst trying to connect to " + uri, ex);
             throw new ApplicationException("Unable to connect", Errors.CONNECTION_ERROR, ex);
         }
         return sb.toString();

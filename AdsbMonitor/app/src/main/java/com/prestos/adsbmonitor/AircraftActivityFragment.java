@@ -105,7 +105,8 @@ public class AircraftActivityFragment extends Fragment implements SwipeRefreshLa
             AircraftData aircraftData = null;
             applicationException = null;
             try {
-                aircraftData = new AircraftData(DataHandler.getData(receiverUrl));
+                ApplicationURL applicationURL = new ApplicationURL(receiverUrl);
+                aircraftData = new AircraftData(DataHandler.getData(applicationURL));
             } catch (ApplicationException ex) {
                 Log.e(AircraftActivityFragment.AircraftDataLoader.class.getName(), "Error trying to get aircraft data from " + receiverUrl, ex);
                 applicationException = ex;
