@@ -18,6 +18,7 @@ import android.widget.EditText;
 public class IpAddressDialogFragment extends DialogFragment {
 
     private View customView;
+    private ApplicationException applicationException = null;
 
     public interface IpAddressDialogListener {
         public void onDialogClick(String ipAddress);
@@ -33,7 +34,7 @@ public class IpAddressDialogFragment extends DialogFragment {
             mListener = (IpAddressDialogListener) activity;
         } catch (ClassCastException e) {
             // The activity doesn't implement the interface, throw exception
-            throw new ClassCastException(activity.toString() + " must implement IpAddressDialogListener");
+            throw new ClassCastException(activity.toString() + " does not implement the correct listener");
         }
     }
 
@@ -80,4 +81,5 @@ public class IpAddressDialogFragment extends DialogFragment {
             });
         }
     }
+
 }

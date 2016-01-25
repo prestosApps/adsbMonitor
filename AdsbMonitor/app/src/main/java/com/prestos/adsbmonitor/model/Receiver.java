@@ -2,6 +2,9 @@ package com.prestos.adsbmonitor.model;
 
 import android.util.JsonReader;
 
+import com.prestos.adsbmonitor.ApplicationException;
+import com.prestos.adsbmonitor.Errors;
+
 import java.io.IOException;
 import java.io.StringReader;
 
@@ -19,32 +22,36 @@ public class Receiver {
     private double lat;
     private double lon;
 
-    public Receiver(String jsonString) throws IOException {
+    public Receiver(String jsonString) throws ApplicationException {
         this.jsonString = jsonString;
         handleJsonMessage();
     }
 
-    private void handleJsonMessage() throws IOException {
+    private void handleJsonMessage() throws ApplicationException {
         JsonReader jsonReader = new JsonReader(new StringReader(jsonString));
 
-        jsonReader.beginObject();
-        while (jsonReader.hasNext()) {
-            String name = jsonReader.nextName();
-            if (name.equals("version")) {
-                version = jsonReader.nextString();
-            } else if (name.equals("refresh")) {
-                refresh = jsonReader.nextInt();
-            } else if (name.equals("history")) {
-                history = jsonReader.nextInt();
-            } else if (name.equals("lat")) {
-                lat = jsonReader.nextDouble();
-            } else if (name.equals("lon")) {
-                lon = jsonReader.nextDouble();
-            } else {
-                jsonReader.skipValue();
+        try {
+            jsonReader.beginObject();
+            while (jsonReader.hasNext()) {
+                String name = jsonReader.nextName();
+                if (name.equals("version")) {
+                    version = jsonReader.nextString();
+                } else if (name.equals("refresh")) {
+                    refresh = jsonReader.nextInt();
+                } else if (name.equals("history")) {
+                    history = jsonReader.nextInt();
+                } else if (name.equals("lat")) {
+                    lat = jsonReader.nextDouble();
+                } else if (name.equals("lon")) {
+                    lon = jsonReader.nextDouble();
+                } else {
+                    jsonReader.skipValue();
+                }
             }
+            jsonReader.close();
+        } catch (IOException e) {
+            throw new ApplicationException("Unable to parse JSON", Errors.JSON_PARSING_ERROR, e);
         }
-        jsonReader.close();
     }
 
     public String getVersion() {

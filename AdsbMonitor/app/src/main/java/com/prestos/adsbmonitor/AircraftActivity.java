@@ -53,6 +53,7 @@ public class AircraftActivity extends AppCompatActivity implements IpAddressDial
 
     @Override
     public void onApplicationError(ApplicationException ex) {
-        Log.e(AircraftActivity.class.getName(), "Handling error: " + ex.getError());
+        Log.d(AircraftActivity.class.getName(), "I take exception: " + ex);
+        Log.e(AircraftActivity.class.getName(), "Oops!: " + ex.getError());
     }
 }
