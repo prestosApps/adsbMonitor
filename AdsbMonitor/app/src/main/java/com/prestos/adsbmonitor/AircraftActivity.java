@@ -42,12 +42,7 @@ public class AircraftActivity extends AppCompatActivity implements IpAddressDial
 
     @Override
     public void onDialogClick(String ipAddress) {
-        Log.d(AircraftActivity.class.getName(), "Deal with " + ipAddress);
-
-        if (!ipAddress.matches("\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b")) {
-            Log.d(AircraftActivity.class.getName(), "Not a valid IP address");
-            createIpAddressDialog();
-        }
+        Log.d(AircraftActivity.class.getName(), "Store IP address: " + ipAddress);
 
         SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();

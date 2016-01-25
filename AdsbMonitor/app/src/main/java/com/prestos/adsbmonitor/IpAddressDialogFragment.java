@@ -9,12 +9,15 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 /**
  * Created by prestos on 18/01/2016.
  */
 public class IpAddressDialogFragment extends DialogFragment {
+
+    private View customView;
 
     public interface IpAddressDialogListener {
         public void onDialogClick(String ipAddress);
@@ -26,7 +29,7 @@ public class IpAddressDialogFragment extends DialogFragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            // Instantiate the NoticeDialogListener so we can send events to the host
+            // Instantiate the listener so we can send events to the host
             mListener = (IpAddressDialogListener) activity;
         } catch (ClassCastException e) {
             // The activity doesn't implement the interface, throw exception
@@ -40,18 +43,41 @@ public class IpAddressDialogFragment extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        final View customView = inflater.inflate(R.layout.dialog_ip_address, null);
+        customView = inflater.inflate(R.layout.dialog_ip_address, null);
 
-        builder.setMessage("IP Address");
+        builder.setMessage("Please enter your IP Address");
         builder.setView(customView);
         builder.setCancelable(false);
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                EditText ipText = (EditText) customView.findViewById(R.id.dialog_ip_address_text);
-                mListener.onDialogClick(ipText.getText().toString());
+
             }
         });
 
         return builder.create();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        final AlertDialog d = (AlertDialog) getDialog();
+        if (d != null) {
+            Button positiveButton = (Button) d.getButton(Dialog.BUTTON_POSITIVE);
+            positiveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Boolean isValidInput = false;
+                    EditText text = (EditText) customView.findViewById(R.id.dialog_ip_address_text);
+                    String ipAddress = text.getText().toString();
+                    if (ipAddress.matches("\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b")) {
+                        isValidInput = true;
+                    }
+                    if (isValidInput) {
+                        d.dismiss();
+                        mListener.onDialogClick(ipAddress);
+                    }
+                }
+            });
+        }
     }
 }
