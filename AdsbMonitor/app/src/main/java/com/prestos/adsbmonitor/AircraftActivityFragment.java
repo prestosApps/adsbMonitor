@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.format.DateUtils;
@@ -32,6 +33,9 @@ public class AircraftActivityFragment extends Fragment implements SwipeRefreshLa
 
     private ApplicationErrorListener mListener;
 
+    private Handler mHandler;
+    private Runnable runnable;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -53,6 +57,7 @@ public class AircraftActivityFragment extends Fragment implements SwipeRefreshLa
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        mHandler = new Handler();
 
         SharedPreferences prefs = getActivity().getPreferences(Context.MODE_PRIVATE);
         hostname = prefs.getString("prefs_ip_address", null);
@@ -70,7 +75,20 @@ public class AircraftActivityFragment extends Fragment implements SwipeRefreshLa
     @Override
     public void onStart() {
         super.onStart();
-        new AircraftDataLoader().execute(hostname);
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                new AircraftDataLoader().execute(hostname);
+                mHandler.postDelayed(this, 1000);
+            }
+        };
+        mHandler.postDelayed(runnable, 1000);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mHandler.removeCallbacks(runnable);
     }
 
     private void handleAircraftDataResult(AircraftData aircraftData) {
