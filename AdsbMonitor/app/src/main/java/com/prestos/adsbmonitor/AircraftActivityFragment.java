@@ -101,6 +101,7 @@ public class AircraftActivityFragment extends Fragment implements SwipeRefreshLa
             AircraftArrayAdapter adapter = new AircraftArrayAdapter(getActivity(), aircraftData.getAircraftList(), new AndroidObfuscator());
             aircraftListview.setAdapter(adapter);
         } else {
+            mHandler.removeCallbacks(runnable);
             mListener.onApplicationError(applicationException);
         }
     }
