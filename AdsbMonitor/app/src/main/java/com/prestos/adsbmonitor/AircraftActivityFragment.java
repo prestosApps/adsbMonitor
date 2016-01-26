@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,12 +14,15 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.prestos.adsbmonitor.model.Aircraft;
 import com.prestos.adsbmonitor.model.AircraftData;
+
+import java.util.ArrayList;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class AircraftActivityFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class AircraftActivityFragment extends Fragment {
 
     private String hostname = null;
     private ListView aircraftListview;
@@ -28,8 +30,8 @@ public class AircraftActivityFragment extends Fragment implements SwipeRefreshLa
     private TextView aircraftWithPositions;
     private TextView mlat;
     private TextView time;
-    private SwipeRefreshLayout swipeRefreshLayout;
     private ApplicationException applicationException;
+    private AircraftArrayAdapter adapter;
 
     private ApplicationErrorListener mListener;
 
@@ -68,8 +70,9 @@ public class AircraftActivityFragment extends Fragment implements SwipeRefreshLa
         aircraftWithPositions = (TextView) getActivity().findViewById(R.id.aircraft_total_with_positions);
         mlat = (TextView) getActivity().findViewById(R.id.aircraft_mlat);
         time = (TextView) getActivity().findViewById(R.id.aircraft_time);
-        swipeRefreshLayout = (SwipeRefreshLayout) getActivity().findViewById(R.id.aircraft_refreshLayout);
-        swipeRefreshLayout.setOnRefreshListener(this);
+
+        adapter = new AircraftArrayAdapter(getActivity(), new ArrayList<Aircraft>(), new AndroidObfuscator());
+        aircraftListview.setAdapter(adapter);
     }
 
     @Override
@@ -93,22 +96,15 @@ public class AircraftActivityFragment extends Fragment implements SwipeRefreshLa
 
     private void handleAircraftDataResult(AircraftData aircraftData) {
         if (applicationException == null) {
-            swipeRefreshLayout.setRefreshing(false);
             aircraftTotal.setText(String.valueOf(aircraftData.getAircraftList().size()));
             aircraftWithPositions.setText(String.valueOf(aircraftData.getAircraftWithPositions()));
             mlat.setText(String.valueOf(aircraftData.getMlat()));
             time.setText(DateUtils.formatDateTime(getContext(), aircraftData.getNowAsDate().getTime(), DateUtils.FORMAT_SHOW_TIME));
-            AircraftArrayAdapter adapter = new AircraftArrayAdapter(getActivity(), aircraftData.getAircraftList(), new AndroidObfuscator());
-            aircraftListview.setAdapter(adapter);
+            adapter.setAircraftList(aircraftData.getAircraftList());
         } else {
             mHandler.removeCallbacks(runnable);
             mListener.onApplicationError(applicationException);
         }
-    }
-
-    @Override
-    public void onRefresh() {
-        new AircraftDataLoader().execute(hostname);
     }
 
     /*
@@ -139,6 +135,4 @@ public class AircraftActivityFragment extends Fragment implements SwipeRefreshLa
             handleAircraftDataResult(aircraftData);
         }
     }
-
-
 }

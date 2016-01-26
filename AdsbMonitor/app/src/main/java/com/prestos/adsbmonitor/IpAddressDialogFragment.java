@@ -51,7 +51,7 @@ public class IpAddressDialogFragment extends DialogFragment {
         builder.setCancelable(false);
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-
+                //Dont put anything here, this is handled in the onStart method so that the dialog does not disappear after validation
             }
         });
 

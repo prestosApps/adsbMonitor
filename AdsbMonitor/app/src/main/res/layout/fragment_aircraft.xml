@@ -64,17 +64,12 @@
         android:layout_toRightOf="@id/aircraft_last_update_label"
         android:padding="2dp" />
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/aircraft_refreshLayout"
+    <ListView
+        android:id="@+id/aircraft_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/aircraft_last_update_label">
+        android:layout_below="@+id/aircraft_last_update_label"
+        android:drawSelectorOnTop="true"
+        android:padding="2dp" />
 
-        <ListView
-            android:id="@+id/aircraft_listview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:drawSelectorOnTop="true"
-            android:padding="2dp" />
-    </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>

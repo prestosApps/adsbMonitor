@@ -82,6 +82,12 @@ public class AircraftArrayAdapter extends ArrayAdapter<Aircraft> {
         return rowView;
     }
 
+    public void setAircraftList(List<Aircraft> aircraftList) {
+        this.aircraftList.clear();
+        this.aircraftList.addAll(aircraftList);
+        this.notifyDataSetChanged();
+    }
+
     private String getVerticalValue(Aircraft aircraft) {
         String response = null;
         int value = aircraft.getVertRate();
