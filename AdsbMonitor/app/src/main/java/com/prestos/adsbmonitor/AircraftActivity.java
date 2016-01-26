@@ -9,6 +9,8 @@ import android.util.Log;
 
 import com.prestos.adsbmonitor.model.Receiver;
 
+import java.util.Date;
+
 public class AircraftActivity extends AppCompatActivity implements IpAddressDialogFragment.IpAddressDialogListener, ApplicationErrorListener {
 
     public static final String PREFS_IP_ADDRESS = "prefs_ip_address";
@@ -31,7 +33,7 @@ public class AircraftActivity extends AppCompatActivity implements IpAddressDial
             if (prefs.contains(PREFS_IP_ADDRESS)) {
                 AircraftActivityFragment aircraftActivityFragment = new AircraftActivityFragment();
                 getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, aircraftActivityFragment).commit();
-                receiverLoadCheck();
+                new ReceiverDataLoader().execute(prefs.getString(PREFS_IP_ADDRESS, null));
             } else {
                 createIpAddressDialog();
             }
@@ -52,19 +54,7 @@ public class AircraftActivity extends AppCompatActivity implements IpAddressDial
         editor.putString(PREFS_IP_ADDRESS, ipAddress).commit();
         AircraftActivityFragment aircraftActivityFragment = new AircraftActivityFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, aircraftActivityFragment).commit();
-        receiverLoadCheck();
-    }
-
-    private void receiverLoadCheck() {
-        long time;
-
-        if (prefs.contains(PREFS_LAST_RECEIVER_LOAD_DATE)) {
-            time = prefs.getLong(PREFS_LAST_RECEIVER_LOAD_DATE, 0);
-        }
-    }
-
-    private void getAndStoreReceiverData() {
-
+        new ReceiverDataLoader().execute(ipAddress);
     }
 
     @Override
@@ -75,7 +65,11 @@ public class AircraftActivity extends AppCompatActivity implements IpAddressDial
 
     private void handleReceiverResponse(Receiver receiver) {
         if (applicationException == null) {
-
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(Receiver.VERSION, receiver.getVersion());
+            editor.putString(Receiver.LATITUDE, String.valueOf(receiver.getLat()));
+            editor.putString(Receiver.LONGITUDE, String.valueOf(receiver.getLon()));
+            editor.commit();
         } else {
             onApplicationError(applicationException);
         }

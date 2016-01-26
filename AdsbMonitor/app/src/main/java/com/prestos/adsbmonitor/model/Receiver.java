@@ -14,6 +14,9 @@ import java.io.StringReader;
 public class Receiver {
 
     public static final String RECEIVER = "receiver";
+    public static final String VERSION = "version";
+    public static final String LATITUDE = "latitude";
+    public static final String LONGITUDE = "longitude";
 
     private String jsonString;
     private String version;
