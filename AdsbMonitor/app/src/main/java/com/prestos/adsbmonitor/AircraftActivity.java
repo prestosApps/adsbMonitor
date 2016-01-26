@@ -2,32 +2,37 @@ package com.prestos.adsbmonitor;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.prestos.adsbmonitor.model.Receiver;
+
 public class AircraftActivity extends AppCompatActivity implements IpAddressDialogFragment.IpAddressDialogListener, ApplicationErrorListener {
+
+    public static final String PREFS_IP_ADDRESS = "prefs_ip_address";
+    public static final String PREFS_LAST_RECEIVER_LOAD_DATE = "prefs_last_receiver_load_date";
+
+    private ApplicationException applicationException = null;
+    private SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aircraft);
+        prefs = getPreferences(Context.MODE_PRIVATE);
 
         if (savedInstanceState != null) {
             return;
         }
 
         if (findViewById(R.id.fragment_container) != null) {
-
-            SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
-            if (prefs.contains("prefs_ip_address")) {
-                Log.d(AircraftActivity.class.getName(), "found IP address preferences: " + prefs.getString("prefs_ip_address", null));
+            if (prefs.contains(PREFS_IP_ADDRESS)) {
                 AircraftActivityFragment aircraftActivityFragment = new AircraftActivityFragment();
                 getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, aircraftActivityFragment).commit();
+                receiverLoadCheck();
             } else {
-                Log.d(AircraftActivity.class.getName(), "Can not find prefs_ip_address, so need to get it");
-//                IpCheckFragment ipCheckFragment = new IpCheckFragment();
-//                getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, ipCheckFragment).commit();
                 createIpAddressDialog();
             }
         } else {
@@ -42,18 +47,61 @@ public class AircraftActivity extends AppCompatActivity implements IpAddressDial
 
     @Override
     public void onDialogClick(String ipAddress) {
-        Log.d(AircraftActivity.class.getName(), "Store IP address: " + ipAddress);
-
         SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("prefs_ip_address", ipAddress).commit();
+        editor.putString(PREFS_IP_ADDRESS, ipAddress).commit();
         AircraftActivityFragment aircraftActivityFragment = new AircraftActivityFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, aircraftActivityFragment).commit();
+        receiverLoadCheck();
+    }
+
+    private void receiverLoadCheck() {
+        long time;
+
+        if (prefs.contains(PREFS_LAST_RECEIVER_LOAD_DATE)) {
+            time = prefs.getLong(PREFS_LAST_RECEIVER_LOAD_DATE, 0);
+        }
+    }
+
+    private void getAndStoreReceiverData() {
+
     }
 
     @Override
     public void onApplicationError(ApplicationException ex) {
         Log.d(AircraftActivity.class.getName(), "I take exception: " + ex);
         Log.e(AircraftActivity.class.getName(), "Oops!: " + ex.getError());
+    }
+
+    private void handleReceiverResponse(Receiver receiver) {
+        if (applicationException == null) {
+
+        } else {
+            onApplicationError(applicationException);
+        }
+    }
+
+    private class ReceiverDataLoader extends AsyncTask<String, Void, Receiver> {
+
+        private String URI = "/dump1090/data/receiver.json";
+
+        @Override
+        protected Receiver doInBackground(String... voids) {
+            String receiverUrl = "http://" + voids[0] + URI;
+            Receiver receiver = null;
+            try {
+                ApplicationURL applicationURL = new ApplicationURL(receiverUrl);
+                receiver = new Receiver(DataHandler.getData(applicationURL));
+            } catch (ApplicationException e) {
+                applicationException = e;
+            }
+            return receiver;
+        }
+
+        @Override
+        protected void onPostExecute(Receiver receiver) {
+            super.onPostExecute(receiver);
+            handleReceiverResponse(receiver);
+        }
     }
 }
