@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +28,6 @@ public class AircraftActivityFragment extends Fragment {
     private TextView aircraftTotal;
     private TextView aircraftWithPositions;
     private TextView mlat;
-    private TextView time;
     private ApplicationException applicationException;
     private AircraftArrayAdapter adapter;
 
@@ -42,10 +40,8 @@ public class AircraftActivityFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            // Instantiate the NoticeDialogListener so we can send events to the host
             mListener = (ApplicationErrorListener) context;
         } catch (ClassCastException e) {
-            // The activity doesn't implement the interface, throw exception
             throw new ClassCastException(context.toString() + " must implement ApplicationErrorListener");
         }
     }
@@ -69,7 +65,6 @@ public class AircraftActivityFragment extends Fragment {
         aircraftTotal = (TextView) getActivity().findViewById(R.id.aircraft_total);
         aircraftWithPositions = (TextView) getActivity().findViewById(R.id.aircraft_total_with_positions);
         mlat = (TextView) getActivity().findViewById(R.id.aircraft_mlat);
-        time = (TextView) getActivity().findViewById(R.id.aircraft_time);
 
         adapter = new AircraftArrayAdapter(getActivity(), new ArrayList<Aircraft>(), new AndroidObfuscator());
         aircraftListview.setAdapter(adapter);
@@ -99,7 +94,6 @@ public class AircraftActivityFragment extends Fragment {
             aircraftTotal.setText(String.valueOf(aircraftData.getAircraftList().size()));
             aircraftWithPositions.setText(String.valueOf(aircraftData.getAircraftWithPositions()));
             mlat.setText(String.valueOf(aircraftData.getMlat()));
-            time.setText(DateUtils.formatDateTime(getContext(), aircraftData.getNowAsDate().getTime(), DateUtils.FORMAT_SHOW_TIME));
             adapter.setAircraftList(aircraftData.getAircraftList());
         } else {
             mHandler.removeCallbacks(runnable);
