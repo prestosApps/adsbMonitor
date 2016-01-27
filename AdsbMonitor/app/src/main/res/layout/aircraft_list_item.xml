@@ -54,4 +54,12 @@
         android:layout_toRightOf="@+id/aircraft_vertical"
         android:padding="2dp" />
 
+    <TextView
+        android:id="@+id/aircraft_distance_from_receiver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/aircraft_track"
+        android:padding="2dp"
+        android:visibility="gone" />
+
 </RelativeLayout>

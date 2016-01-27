@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.prestos.adsbmonitor.model.Aircraft;
 import com.prestos.adsbmonitor.model.AircraftData;
+import com.prestos.adsbmonitor.model.Receiver;
 
 import java.util.ArrayList;
 
@@ -28,6 +29,7 @@ public class AircraftActivityFragment extends Fragment {
     private TextView aircraftTotal;
     private TextView aircraftWithPositions;
     private TextView mlat;
+    private TextView version;
     private ApplicationException applicationException;
     private AircraftArrayAdapter adapter;
 
@@ -65,6 +67,8 @@ public class AircraftActivityFragment extends Fragment {
         aircraftTotal = (TextView) getActivity().findViewById(R.id.aircraft_total);
         aircraftWithPositions = (TextView) getActivity().findViewById(R.id.aircraft_total_with_positions);
         mlat = (TextView) getActivity().findViewById(R.id.aircraft_mlat);
+        version = (TextView) getActivity().findViewById(R.id.aircraft_receiver_version);
+        version.setText(prefs.getString(Receiver.VERSION, null));
 
         adapter = new AircraftArrayAdapter(getActivity(), new ArrayList<Aircraft>(), new AndroidObfuscator());
         aircraftListview.setAdapter(adapter);
