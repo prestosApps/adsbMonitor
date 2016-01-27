@@ -11,7 +11,6 @@ import android.util.Log;
 public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.d(AlarmReceiver.class.getName(), "You're Fired!!!");
         Intent historyServiceIntent = new Intent(context, HistoryService.class);
         context.startService(historyServiceIntent);
     }

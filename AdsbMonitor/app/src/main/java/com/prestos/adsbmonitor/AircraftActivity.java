@@ -12,6 +12,8 @@ import android.util.Log;
 
 import com.prestos.adsbmonitor.model.Receiver;
 
+import java.util.Calendar;
+
 public class AircraftActivity extends AppCompatActivity implements IpAddressDialogFragment.IpAddressDialogListener, ApplicationErrorListener {
 
     public static final String PREFS = "applicationPrefs";
@@ -35,10 +37,12 @@ public class AircraftActivity extends AppCompatActivity implements IpAddressDial
         }
 
         //Set up hourly alarm
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.HOUR, 1);
         Intent intent = new Intent(this, AlarmReceiver.class);
         alarmIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        alarm.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 0, 60000, alarmIntent);
+        alarm.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_HOUR, alarmIntent);
 
         if (findViewById(R.id.fragment_container) != null) {
             if (prefs.contains(PREFS_IP_ADDRESS)) {
