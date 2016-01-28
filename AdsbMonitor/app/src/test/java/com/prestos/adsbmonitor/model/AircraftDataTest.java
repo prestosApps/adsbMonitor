@@ -2,7 +2,6 @@ package com.prestos.adsbmonitor.model;
 
 import com.prestos.adsbmonitor.ApplicationException;
 import com.prestos.adsbmonitor.BuildConfig;
-import com.prestos.adsbmonitor.Errors;
 
 import junit.framework.Assert;
 

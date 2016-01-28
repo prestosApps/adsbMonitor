@@ -1,12 +1,11 @@
 package com.prestos.adsbmonitor;
 
-import android.util.Log;
+import com.prestos.adsbmonitor.model.Errors;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.URL;
 
 /**
  * Created by prestos on 22/10/2015.

@@ -1,4 +1,4 @@
-package com.prestos.adsbmonitor;
+package com.prestos.adsbmonitor.model;
 
 /**
  * Created by prestos on 20/01/2016.

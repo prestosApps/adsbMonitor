@@ -3,7 +3,8 @@ package com.prestos.adsbmonitor;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
+
+import com.prestos.adsbmonitor.components.HistoryService;
 
 /**
  * Created by prestos on 27/01/2016.

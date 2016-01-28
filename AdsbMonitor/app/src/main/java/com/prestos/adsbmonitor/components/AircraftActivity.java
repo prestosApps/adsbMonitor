@@ -1,4 +1,4 @@
-package com.prestos.adsbmonitor;
+package com.prestos.adsbmonitor.components;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -10,6 +10,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.prestos.adsbmonitor.AlarmReceiver;
+import com.prestos.adsbmonitor.ApplicationErrorListener;
+import com.prestos.adsbmonitor.ApplicationException;
+import com.prestos.adsbmonitor.ApplicationURL;
+import com.prestos.adsbmonitor.DataHandler;
+import com.prestos.adsbmonitor.R;
 import com.prestos.adsbmonitor.model.Receiver;
 
 import java.util.Calendar;
@@ -42,7 +48,8 @@ public class AircraftActivity extends AppCompatActivity implements IpAddressDial
         Intent intent = new Intent(this, AlarmReceiver.class);
         alarmIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        alarm.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_HOUR, alarmIntent);
+        //alarm.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_HOUR, alarmIntent);
+        alarm.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 0, AlarmManager.INTERVAL_HOUR, alarmIntent);
 
         if (findViewById(R.id.fragment_container) != null) {
             if (prefs.contains(PREFS_IP_ADDRESS)) {

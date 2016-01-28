@@ -1,4 +1,4 @@
-package com.prestos.adsbmonitor;
+package com.prestos.adsbmonitor.model;
 
 import com.prestos.adsbmonitor.model.AircraftData;
 

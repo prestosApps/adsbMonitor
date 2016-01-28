@@ -3,7 +3,6 @@ package com.prestos.adsbmonitor.model;
 import android.util.JsonReader;
 
 import com.prestos.adsbmonitor.ApplicationException;
-import com.prestos.adsbmonitor.Errors;
 
 import java.io.IOException;
 import java.io.StringReader;

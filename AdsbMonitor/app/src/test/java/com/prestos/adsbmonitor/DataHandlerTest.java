@@ -1,5 +1,7 @@
 package com.prestos.adsbmonitor;
 
+import com.prestos.adsbmonitor.model.Errors;
+
 import junit.framework.Assert;
 
 import org.junit.Before;

@@ -1,5 +1,7 @@
 package com.prestos.adsbmonitor;
 
+import com.prestos.adsbmonitor.model.Errors;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;

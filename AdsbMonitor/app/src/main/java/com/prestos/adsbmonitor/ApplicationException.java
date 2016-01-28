@@ -1,5 +1,7 @@
 package com.prestos.adsbmonitor;
 
+import com.prestos.adsbmonitor.model.Errors;
+
 /**
  * Created by prestos on 19/01/2016.
  */

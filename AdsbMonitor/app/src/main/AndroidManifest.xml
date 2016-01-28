@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".AircraftActivity"
+            android:name=".components.AircraftActivity"
             android:label="@string/title_activity_aircraft">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,7 +21,7 @@
         </activity>
 
         <receiver android:name=".AlarmReceiver" />
-        <service android:name=".HistoryService" />
+        <service android:name=".components.HistoryService" />
     </application>
 
 </manifest>

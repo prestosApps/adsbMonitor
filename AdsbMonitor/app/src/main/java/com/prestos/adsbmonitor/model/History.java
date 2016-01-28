@@ -2,8 +2,6 @@ package com.prestos.adsbmonitor.model;
 
 import android.util.Log;
 
-import com.prestos.adsbmonitor.AircraftDataComparator;
-
 import java.util.Collections;
 import java.util.List;
 

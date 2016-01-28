@@ -5,6 +5,7 @@ import android.util.JsonReader;
 import android.view.View;
 import android.widget.TextView;
 
+import com.prestos.adsbmonitor.components.AircraftActivity;
 import com.prestos.adsbmonitor.model.Aircraft;
 
 import junit.framework.Assert;

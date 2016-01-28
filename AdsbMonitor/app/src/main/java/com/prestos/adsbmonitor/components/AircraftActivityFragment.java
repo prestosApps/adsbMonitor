@@ -1,4 +1,4 @@
-package com.prestos.adsbmonitor;
+package com.prestos.adsbmonitor.components;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -13,6 +13,13 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.prestos.adsbmonitor.AircraftArrayAdapter;
+import com.prestos.adsbmonitor.AndroidObfuscator;
+import com.prestos.adsbmonitor.ApplicationErrorListener;
+import com.prestos.adsbmonitor.ApplicationException;
+import com.prestos.adsbmonitor.ApplicationURL;
+import com.prestos.adsbmonitor.DataHandler;
+import com.prestos.adsbmonitor.R;
 import com.prestos.adsbmonitor.model.Aircraft;
 import com.prestos.adsbmonitor.model.AircraftData;
 import com.prestos.adsbmonitor.model.Receiver;
