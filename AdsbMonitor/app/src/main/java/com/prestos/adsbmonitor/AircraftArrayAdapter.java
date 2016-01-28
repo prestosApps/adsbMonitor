@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.prestos.adsbmonitor.components.AircraftActivity;
 import com.prestos.adsbmonitor.model.Aircraft;
 import com.prestos.adsbmonitor.model.Receiver;
 
@@ -43,7 +45,7 @@ public class AircraftArrayAdapter extends ArrayAdapter<Aircraft> {
         aircraftList = objects;
         this.context = context;
         this.androidObfuscator = androidObfuscator;
-        SharedPreferences prefs = context.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences prefs = context.getSharedPreferences(AircraftActivity.PREFS, Context.MODE_PRIVATE);
         receiverLat = Double.valueOf(prefs.getString(Receiver.LATITUDE, "0"));
         receiverLon = Double.valueOf(prefs.getString(Receiver.LONGITUDE, "0"));
     }
