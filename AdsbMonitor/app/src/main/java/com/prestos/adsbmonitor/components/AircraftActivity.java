@@ -48,8 +48,7 @@ public class AircraftActivity extends AppCompatActivity implements IpAddressDial
         Intent intent = new Intent(this, AlarmReceiver.class);
         alarmIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        //alarm.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_HOUR, alarmIntent);
-        alarm.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 0, AlarmManager.INTERVAL_HOUR, alarmIntent);
+        alarm.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_HOUR, alarmIntent);
 
         if (findViewById(R.id.fragment_container) != null) {
             if (prefs.contains(PREFS_IP_ADDRESS)) {

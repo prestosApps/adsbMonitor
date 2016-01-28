@@ -1,7 +1,5 @@
 package com.prestos.adsbmonitor.model;
 
-import android.util.Log;
-
 import java.util.Collections;
 import java.util.List;
 
@@ -20,7 +18,6 @@ public class History {
     public void setHistory(List<AircraftData> history) {
         this.history = history;
         Collections.sort(history, new AircraftDataComparator());
-        Log.d(this.getClass().getName(), "Historic date range: " + history.get(0).getNowAsDate() + " to " + history.get((history.size() - 1)).getNowAsDate());
     }
 
     public int getAircraftHistoryCount() {
