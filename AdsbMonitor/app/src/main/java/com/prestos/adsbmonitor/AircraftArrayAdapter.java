@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +15,8 @@ import com.prestos.adsbmonitor.model.Aircraft;
 import com.prestos.adsbmonitor.model.Receiver;
 
 import java.text.DecimalFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -100,7 +101,25 @@ public class AircraftArrayAdapter extends ArrayAdapter<Aircraft> {
         return rowView;
     }
 
+    /**
+     * Sets the aircraft list without sorting it
+     *
+     * @param aircraftList
+     */
     public void setAircraftList(List<Aircraft> aircraftList) {
+        this.aircraftList.clear();
+        this.aircraftList.addAll(aircraftList);
+        this.notifyDataSetChanged();
+    }
+
+    /**
+     * Sorts the list with the provided comparator then stores the list
+     *
+     * @param aircraftList
+     * @param comparator
+     */
+    public void setAircraftList(List<Aircraft> aircraftList, Comparator comparator) {
+        Collections.sort(aircraftList, comparator);
         this.aircraftList.clear();
         this.aircraftList.addAll(aircraftList);
         this.notifyDataSetChanged();

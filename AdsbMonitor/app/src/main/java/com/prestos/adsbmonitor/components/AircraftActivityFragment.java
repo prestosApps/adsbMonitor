@@ -22,9 +22,11 @@ import com.prestos.adsbmonitor.DataHandler;
 import com.prestos.adsbmonitor.R;
 import com.prestos.adsbmonitor.model.Aircraft;
 import com.prestos.adsbmonitor.model.AircraftData;
+import com.prestos.adsbmonitor.model.AircraftDistanceComparator;
 import com.prestos.adsbmonitor.model.Receiver;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -39,11 +41,11 @@ public class AircraftActivityFragment extends Fragment {
     private TextView version;
     private ApplicationException applicationException;
     private AircraftArrayAdapter adapter;
-
+    private Comparator listSortOrder;
     private ApplicationErrorListener mListener;
-
     private Handler mHandler;
     private Runnable runnable;
+    SharedPreferences prefs;
 
     @Override
     public void onAttach(Context context) {
@@ -66,8 +68,10 @@ public class AircraftActivityFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mHandler = new Handler();
 
-        SharedPreferences prefs = getActivity().getSharedPreferences(AircraftActivity.PREFS, Context.MODE_PRIVATE);
+        prefs = getActivity().getSharedPreferences(AircraftActivity.PREFS, Context.MODE_PRIVATE);
         hostname = prefs.getString("prefs_ip_address", null);
+
+        listSortOrder = new AircraftDistanceComparator(Double.valueOf(prefs.getString(Receiver.LATITUDE, "0")), Double.valueOf(prefs.getString(Receiver.LONGITUDE, "0")));
 
         aircraftListview = (ListView) getActivity().findViewById(R.id.aircraft_listview);
         aircraftTotal = (TextView) getActivity().findViewById(R.id.aircraft_total);
@@ -104,7 +108,7 @@ public class AircraftActivityFragment extends Fragment {
             aircraftTotal.setText(String.valueOf(aircraftData.getAircraftList().size()));
             aircraftWithPositions.setText(String.valueOf(aircraftData.getAircraftWithPositions()));
             mlat.setText(String.valueOf(aircraftData.getMlat()));
-            adapter.setAircraftList(aircraftData.getAircraftList());
+            adapter.setAircraftList(aircraftData.getAircraftList(), listSortOrder);
         } else {
             mHandler.removeCallbacks(runnable);
             mListener.onApplicationError(applicationException);
