@@ -39,7 +39,9 @@ public class AircraftData {
                     aircraftList = new ArrayList<Aircraft>();
                     jsonReader.beginArray();
                     while (jsonReader.hasNext()) {
-                        aircraftList.add(new Aircraft(jsonReader));
+                        Aircraft aircraft = new Aircraft(jsonReader);
+                        aircraft.setTimestamp(now.longValue() * 1000);
+                        aircraftList.add(aircraft);
                     }
                     jsonReader.endArray();
                 } else if (name.equals(NOW)) {

@@ -17,5 +17,7 @@ public class Dump1090Contract {
         public static final String COLUMN_NAME_FLIGHT = "flight";
         public static final String COLUMN_NAME_MESSAGES = "messages";
         public static final String COLUMN_NAME_MLAT = "mlat";
+        public static final String COLUMN_NAME_FIRST_SEEN_IN_PERIOD = "firstSeenInPeriod";
+        public static final String COLUMN_NAME_LAST_SEEN_IN_PERIOD = "lastSeenInPeriod";
     }
 }

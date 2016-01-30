@@ -45,6 +45,7 @@ public class Aircraft {
     private double seen;
     private double rssi;
     private boolean mlat = false;
+    private long timestamp;
 
     public Aircraft(JsonReader jsonReader) throws ApplicationException {
         try {
@@ -221,5 +222,13 @@ public class Aircraft {
 
     public void setMlat(boolean mlat) {
         this.mlat = mlat;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 }

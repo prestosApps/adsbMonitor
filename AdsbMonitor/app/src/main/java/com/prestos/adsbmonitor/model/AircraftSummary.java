@@ -1,5 +1,6 @@
 package com.prestos.adsbmonitor.model;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -13,14 +14,23 @@ public class AircraftSummary {
     private String flight;
     private long messages;
     private boolean mlat;
+    private long firstSeenInPeriod = 0;
+    private long lastSeenInPeriod = 0;
 
     public AircraftSummary(List<Aircraft> aircraftList) {
+        Collections.sort(aircraftList, new AircraftDateComparator());
+
+        if (aircraftList.size() > 0) {
+            firstSeenInPeriod = aircraftList.get(0).getTimestamp();
+            lastSeenInPeriod = aircraftList.get((aircraftList.size() - 1)).getTimestamp();
+            hexcode = aircraftList.get(0).getHex();
+            squawk = aircraftList.get(0).getSquawk();
+            flight = aircraftList.get(0).getFlight();
+            mlat = aircraftList.get(0).isMlat();
+        }
+
         for (Aircraft aircraft : aircraftList) {
-            hexcode = aircraft.getHex();
-            squawk = aircraft.getSquawk();
-            flight = aircraft.getFlight();
             messages += aircraft.getMessages();
-            mlat = aircraft.isMlat();
         }
 
     }
@@ -63,5 +73,29 @@ public class AircraftSummary {
 
     public void setMlat(boolean mlat) {
         this.mlat = mlat;
+    }
+
+    public long getFirstSeenInPeriod() {
+        return firstSeenInPeriod;
+    }
+
+    public void setFirstSeenInPeriod(long firstSeenInPeriod) {
+        this.firstSeenInPeriod = firstSeenInPeriod;
+    }
+
+    public long getLastSeenInPeriod() {
+        return lastSeenInPeriod;
+    }
+
+    public void setLastSeenInPeriod(long lastSeenInPeriod) {
+        this.lastSeenInPeriod = lastSeenInPeriod;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        String separator = " : ";
+        sb.append(hexcode).append(separator).append(squawk).append(separator).append(flight).append(separator).append(messages).append(separator).append(isMlat()).append(separator).append(firstSeenInPeriod).append(separator).append(lastSeenInPeriod);
+        return sb.toString();
     }
 }

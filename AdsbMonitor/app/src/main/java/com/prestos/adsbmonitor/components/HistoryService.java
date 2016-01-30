@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.prestos.adsbmonitor.ApplicationException;
 import com.prestos.adsbmonitor.ApplicationURL;
@@ -50,12 +49,6 @@ public class HistoryService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.d(HistoryService.class.getName(), "All done for now");
-    }
-
     private void handleReceiverResponse(Receiver receiver) {
         if (applicationException == null) {
             historyCount = receiver.getHistory();
@@ -67,7 +60,6 @@ public class HistoryService extends Service {
 
     private void handleAircraftDataResult(History history) {
         if (applicationException == null) {
-            Log.d(HistoryService.class.getName(), "Aircraft: " + history.getAircraftHistoryCount());
             new WriteToDatabase().execute(history);
         }
     }
@@ -94,9 +86,12 @@ public class HistoryService extends Service {
                 contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_FLIGHT, aircraftSummary.getFlight());
                 contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_MESSAGES, aircraftSummary.getMessages());
                 contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_MLAT, aircraftSummary.isMlat());
+                contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_FIRST_SEEN_IN_PERIOD, aircraftSummary.getFirstSeenInPeriod());
+                contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_LAST_SEEN_IN_PERIOD, aircraftSummary.getLastSeenInPeriod());
 
                 db.insert(Dump1090Contract.Aircraft.TABLE_NAME, null, contentValues);
             }
+            db.close();
             return null;
         }
 

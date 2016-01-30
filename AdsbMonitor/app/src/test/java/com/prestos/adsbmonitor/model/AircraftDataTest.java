@@ -89,4 +89,10 @@ public class AircraftDataTest {
     public void aircraftData_aircraft_with_mlat_valid() {
         Assert.assertEquals(1, aircraftData.getMlat());
     }
+
+    @Test
+    public void aircraftData_aircraft_timestamp() {
+        Aircraft aircraft = aircraftData.getAircraftList().get(0);
+        Assert.assertEquals(1453331057000l, aircraft.getTimestamp());
+    }
 }
