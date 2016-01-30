@@ -18,12 +18,14 @@ import com.prestos.adsbmonitor.database.Dump1090Contract;
 import com.prestos.adsbmonitor.database.Dump1090DbHelper;
 import com.prestos.adsbmonitor.model.Aircraft;
 import com.prestos.adsbmonitor.model.AircraftData;
+import com.prestos.adsbmonitor.model.AircraftSummary;
 import com.prestos.adsbmonitor.model.History;
 import com.prestos.adsbmonitor.model.Receiver;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by prestos on 27/01/2016.
@@ -78,35 +80,30 @@ public class HistoryService extends Service {
         @Override
         protected Void doInBackground(History... voids) {
             Log.d(HistoryService.class.getName(), "Updating database");
+
             History history = voids[0];
+            Log.d(HistoryService.class.getName(), "Getting reduced data map");
+            Map<String, List<Aircraft>> reducedMap = history.reduce();
+            Log.d(HistoryService.class.getName(), "Got the reduced data map");
+            Log.d(HistoryService.class.getName(), "Unique ids: " + reducedMap.size());
+
+            Log.d(HistoryService.class.getName(), "Starting database updates");
             Dump1090DbHelper dbHelper = new Dump1090DbHelper(getApplicationContext());
             SQLiteDatabase db = dbHelper.getWritableDatabase();
 
             ContentValues contentValues;
-            for (AircraftData aircraftData : history.getHistory()) {
-                for (Aircraft aircraft : aircraftData.getAircraftList()) {
-                    contentValues = new ContentValues();
-                    contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_HEXCODE, aircraft.getHex());
-                    contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_SQUAWK, aircraft.getSquawk());
-                    contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_FLIGHT, aircraft.getFlight());
-                    contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_LAT, aircraft.getLat());
-                    contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_LON, aircraft.getLon());
-                    contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_NUCP, aircraft.getNucp());
-                    contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_SEEN_POS, aircraft.getSeenPos());
-                    contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_ALTITUDE, aircraft.getAltitude());
-                    contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_VERT_RATE, aircraft.getVertRate());
-                    contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_TRACK, aircraft.getTrack());
-                    contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_SPEED, aircraft.getSpeed());
-                    contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_CATEGORY, aircraft.getCategory());
-                    contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_MESSAGES, aircraft.getMessages());
-                    contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_SEEN, aircraft.getSeen());
-                    contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_RSSI, aircraft.getRssi());
-                    contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_MLAT, aircraft.isMlat());
+            for (Map.Entry<String, List<Aircraft>> entry : reducedMap.entrySet()) {
+                AircraftSummary aircraftSummary = new AircraftSummary(entry.getValue());
+                contentValues = new ContentValues();
+                contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_HEXCODE, aircraftSummary.getHexcode());
+                contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_SQUAWK, aircraftSummary.getSquawk());
+                contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_FLIGHT, aircraftSummary.getFlight());
+                contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_MESSAGES, aircraftSummary.getMessages());
+                contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_MLAT, aircraftSummary.isMlat());
 
-                    db.insert(Dump1090Contract.Aircraft.TABLE_NAME, null, contentValues);
-                }
+                db.insert(Dump1090Contract.Aircraft.TABLE_NAME, null, contentValues);
             }
-            Log.d(HistoryService.class.getName(), "Database updated");
+            Log.d(HistoryService.class.getName(), "Completed database updates");
             return null;
         }
 

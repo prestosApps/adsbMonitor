@@ -24,7 +24,6 @@ public class AircraftActivity extends AppCompatActivity implements IpAddressDial
 
     public static final String PREFS = "applicationPrefs";
     public static final String PREFS_IP_ADDRESS = "prefs_ip_address";
-    public static final String PREFS_LAST_RECEIVER_LOAD_DATE = "prefs_last_receiver_load_date";
 
     private ApplicationException applicationException = null;
     private SharedPreferences prefs;
@@ -52,8 +51,6 @@ public class AircraftActivity extends AppCompatActivity implements IpAddressDial
 
         if (findViewById(R.id.fragment_container) != null) {
             if (prefs.contains(PREFS_IP_ADDRESS)) {
-                AircraftActivityFragment aircraftActivityFragment = new AircraftActivityFragment();
-                getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, aircraftActivityFragment).commit();
                 new ReceiverDataLoader().execute(prefs.getString(PREFS_IP_ADDRESS, null));
             } else {
                 createIpAddressDialog();
@@ -72,9 +69,7 @@ public class AircraftActivity extends AppCompatActivity implements IpAddressDial
     public void onDialogClick(String ipAddress) {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(PREFS_IP_ADDRESS, ipAddress).commit();
-        AircraftActivityFragment aircraftActivityFragment = new AircraftActivityFragment();
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, aircraftActivityFragment).commit();
-        new ReceiverDataLoader().execute(ipAddress);
+        new ReceiverDataLoader().execute(prefs.getString(PREFS_IP_ADDRESS, null));
     }
 
     @Override
@@ -90,6 +85,11 @@ public class AircraftActivity extends AppCompatActivity implements IpAddressDial
             editor.putString(Receiver.LATITUDE, String.valueOf(receiver.getLat()));
             editor.putString(Receiver.LONGITUDE, String.valueOf(receiver.getLon()));
             editor.commit();
+            /*
+            The following needs to be here so that the lat and lon are picked up for the receiver
+             */
+            AircraftActivityFragment aircraftActivityFragment = new AircraftActivityFragment();
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, aircraftActivityFragment).commit();
         } else {
             onApplicationError(applicationException);
         }

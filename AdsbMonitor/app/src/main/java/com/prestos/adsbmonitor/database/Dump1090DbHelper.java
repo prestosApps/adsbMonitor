@@ -20,18 +20,7 @@ public class Dump1090DbHelper extends SQLiteOpenHelper {
             Dump1090Contract.Aircraft.COLUMN_NAME_HEXCODE + TEXT_TYPE + COMMA_SEP +
             Dump1090Contract.Aircraft.COLUMN_NAME_SQUAWK + TEXT_TYPE + COMMA_SEP +
             Dump1090Contract.Aircraft.COLUMN_NAME_FLIGHT + TEXT_TYPE + COMMA_SEP +
-            Dump1090Contract.Aircraft.COLUMN_NAME_LAT + REAL_TYPE + COMMA_SEP +
-            Dump1090Contract.Aircraft.COLUMN_NAME_LON + REAL_TYPE + COMMA_SEP +
-            Dump1090Contract.Aircraft.COLUMN_NAME_NUCP + INT_TYPE + COMMA_SEP +
-            Dump1090Contract.Aircraft.COLUMN_NAME_SEEN_POS + REAL_TYPE + COMMA_SEP +
-            Dump1090Contract.Aircraft.COLUMN_NAME_ALTITUDE + TEXT_TYPE + COMMA_SEP +
-            Dump1090Contract.Aircraft.COLUMN_NAME_VERT_RATE + INT_TYPE + COMMA_SEP +
-            Dump1090Contract.Aircraft.COLUMN_NAME_TRACK + INT_TYPE + COMMA_SEP +
-            Dump1090Contract.Aircraft.COLUMN_NAME_SPEED + INT_TYPE + COMMA_SEP +
-            Dump1090Contract.Aircraft.COLUMN_NAME_CATEGORY + TEXT_TYPE + COMMA_SEP +
             Dump1090Contract.Aircraft.COLUMN_NAME_MESSAGES + INT_TYPE + COMMA_SEP +
-            Dump1090Contract.Aircraft.COLUMN_NAME_SEEN + REAL_TYPE + COMMA_SEP +
-            Dump1090Contract.Aircraft.COLUMN_NAME_RSSI + REAL_TYPE + COMMA_SEP +
             Dump1090Contract.Aircraft.COLUMN_NAME_MLAT + TEXT_TYPE + ")";
 
     private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + Dump1090Contract.Aircraft.TABLE_NAME;
