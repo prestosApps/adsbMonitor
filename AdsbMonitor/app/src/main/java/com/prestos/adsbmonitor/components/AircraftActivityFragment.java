@@ -68,7 +68,6 @@ public class AircraftActivityFragment extends Fragment {
 
         SharedPreferences prefs = getActivity().getSharedPreferences(AircraftActivity.PREFS, Context.MODE_PRIVATE);
         hostname = prefs.getString("prefs_ip_address", null);
-        Log.d(AircraftActivityFragment.class.getName(), "Using IP Address: " + hostname);
 
         aircraftListview = (ListView) getActivity().findViewById(R.id.aircraft_listview);
         aircraftTotal = (TextView) getActivity().findViewById(R.id.aircraft_total);

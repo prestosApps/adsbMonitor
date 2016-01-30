@@ -79,15 +79,9 @@ public class HistoryService extends Service {
     private class WriteToDatabase extends AsyncTask<History, Void, Void> {
         @Override
         protected Void doInBackground(History... voids) {
-            Log.d(HistoryService.class.getName(), "Updating database");
-
             History history = voids[0];
-            Log.d(HistoryService.class.getName(), "Getting reduced data map");
             Map<String, List<Aircraft>> reducedMap = history.reduce();
-            Log.d(HistoryService.class.getName(), "Got the reduced data map");
-            Log.d(HistoryService.class.getName(), "Unique ids: " + reducedMap.size());
 
-            Log.d(HistoryService.class.getName(), "Starting database updates");
             Dump1090DbHelper dbHelper = new Dump1090DbHelper(getApplicationContext());
             SQLiteDatabase db = dbHelper.getWritableDatabase();
 
@@ -103,7 +97,6 @@ public class HistoryService extends Service {
 
                 db.insert(Dump1090Contract.Aircraft.TABLE_NAME, null, contentValues);
             }
-            Log.d(HistoryService.class.getName(), "Completed database updates");
             return null;
         }
 
@@ -120,7 +113,6 @@ public class HistoryService extends Service {
 
         @Override
         protected Receiver doInBackground(String... voids) {
-            Log.d(HistoryService.class.getName(), "Getting Receiver Data");
             String receiverUrl = "http://" + voids[0] + URI;
             Receiver receiver = null;
             try {
