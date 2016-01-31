@@ -79,7 +79,7 @@ public class HistoryTest {
             aircraftDataList.add(aircraftData4);
             aircraftDataList.add(aircraftData5);
         } catch (ApplicationException e) {
-            Assert.fail("Test should have passed: " + e.getMessage());
+            Assert.fail("Setup should have passed: " + e.getMessage());
         }
     }
 }

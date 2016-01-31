@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.prestos.adsbmonitor.ApplicationException;
 import com.prestos.adsbmonitor.ApplicationURL;
@@ -76,7 +77,7 @@ public class HistoryService extends Service {
 
             Dump1090DbHelper dbHelper = new Dump1090DbHelper(getApplicationContext());
             SQLiteDatabase db = dbHelper.getWritableDatabase();
-
+            Log.d(HistoryService.class.getName(), "Updating database...");
             ContentValues contentValues;
             for (Map.Entry<String, List<Aircraft>> entry : reducedMap.entrySet()) {
                 AircraftSummary aircraftSummary = new AircraftSummary(entry.getValue());

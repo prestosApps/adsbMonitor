@@ -21,8 +21,8 @@ public class Dump1090DbHelper extends SQLiteOpenHelper {
             Dump1090Contract.Aircraft.COLUMN_NAME_SQUAWK + TEXT_TYPE + COMMA_SEP +
             Dump1090Contract.Aircraft.COLUMN_NAME_FLIGHT + TEXT_TYPE + COMMA_SEP +
             Dump1090Contract.Aircraft.COLUMN_NAME_MESSAGES + INT_TYPE + COMMA_SEP +
-            Dump1090Contract.Aircraft.COLUMN_NAME_MLAT + TEXT_TYPE +
-            Dump1090Contract.Aircraft.COLUMN_NAME_FIRST_SEEN_IN_PERIOD + INT_TYPE +
+            Dump1090Contract.Aircraft.COLUMN_NAME_MLAT + TEXT_TYPE + COMMA_SEP +
+            Dump1090Contract.Aircraft.COLUMN_NAME_FIRST_SEEN_IN_PERIOD + INT_TYPE + COMMA_SEP +
             Dump1090Contract.Aircraft.COLUMN_NAME_LAST_SEEN_IN_PERIOD + INT_TYPE + ")";
 
     private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + Dump1090Contract.Aircraft.TABLE_NAME;
