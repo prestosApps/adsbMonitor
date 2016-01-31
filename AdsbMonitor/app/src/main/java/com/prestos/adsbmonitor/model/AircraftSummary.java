@@ -27,12 +27,8 @@ public class AircraftSummary {
             squawk = aircraftList.get(0).getSquawk();
             flight = aircraftList.get(0).getFlight();
             mlat = aircraftList.get(0).isMlat();
+            messages = aircraftList.get((aircraftList.size() - 1)).getMessages();
         }
-
-        for (Aircraft aircraft : aircraftList) {
-            messages += aircraft.getMessages();
-        }
-
     }
 
     public String getHexcode() {
