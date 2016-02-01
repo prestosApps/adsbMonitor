@@ -1,5 +1,6 @@
 package com.prestos.adsbmonitor.model;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -17,6 +18,10 @@ public class AircraftSummary {
     private long firstSeenInPeriod = 0;
     private long lastSeenInPeriod = 0;
 
+    public AircraftSummary() {
+
+    }
+
     public AircraftSummary(List<Aircraft> aircraftList) {
         Collections.sort(aircraftList, new AircraftDateComparator());
 
@@ -29,6 +34,12 @@ public class AircraftSummary {
             mlat = aircraftList.get(0).isMlat();
             messages = aircraftList.get((aircraftList.size() - 1)).getMessages();
         }
+    }
+
+    public static List<AircraftSummary> getSummaries(List<Aircraft> aircraftList) {
+        Collections.sort(aircraftList, new AircraftDateComparator());
+        List<AircraftSummary> aircraftSummaryList = new ArrayList<AircraftSummary>();
+        return aircraftSummaryList;
     }
 
     public String getHexcode() {
