@@ -1,5 +1,7 @@
 package com.prestos.adsbmonitor.model;
 
+import com.prestos.adsbmonitor.filters.AircraftSquawkFilter;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -18,27 +20,25 @@ public class AircraftSummary {
     private long firstSeenInPeriod = 0;
     private long lastSeenInPeriod = 0;
 
-    public AircraftSummary() {
-
-    }
-
-    public AircraftSummary(List<Aircraft> aircraftList) {
-        Collections.sort(aircraftList, new AircraftDateComparator());
-
-        if (aircraftList.size() > 0) {
-            firstSeenInPeriod = aircraftList.get(0).getTimestamp();
-            lastSeenInPeriod = aircraftList.get((aircraftList.size() - 1)).getTimestamp();
-            hexcode = aircraftList.get(0).getHex();
-            squawk = aircraftList.get(0).getSquawk();
-            flight = aircraftList.get(0).getFlight();
-            mlat = aircraftList.get(0).isMlat();
-            messages = aircraftList.get((aircraftList.size() - 1)).getMessages();
-        }
-    }
-
     public static List<AircraftSummary> getSummaries(List<Aircraft> aircraftList) {
-        Collections.sort(aircraftList, new AircraftDateComparator());
+        List<List<Aircraft>> filteredAircraftList = AircraftSquawkFilter.filter(aircraftList);
         List<AircraftSummary> aircraftSummaryList = new ArrayList<AircraftSummary>();
+
+        for (List<Aircraft> aircraftListItem : filteredAircraftList) {
+            Collections.sort(aircraftListItem, new AircraftDateComparator());
+            if (aircraftList.size() > 0) {
+                AircraftSummary aircraftSummary = new AircraftSummary();
+                aircraftSummary.setFirstSeenInPeriod(aircraftListItem.get(0).getTimestamp());
+                aircraftSummary.setLastSeenInPeriod(aircraftListItem.get((aircraftListItem.size() - 1)).getTimestamp());
+                aircraftSummary.setHexcode(aircraftListItem.get(0).getHex());
+                aircraftSummary.setSquawk(aircraftListItem.get(0).getSquawk());
+                aircraftSummary.setFlight(aircraftListItem.get(0).getFlight());
+                aircraftSummary.setMlat(aircraftListItem.get(0).isMlat());
+                aircraftSummary.setMessages(aircraftListItem.get((aircraftListItem.size() - 1)).getMessages());
+                aircraftSummaryList.add(aircraftSummary);
+            }
+        }
+
         return aircraftSummaryList;
     }
 
