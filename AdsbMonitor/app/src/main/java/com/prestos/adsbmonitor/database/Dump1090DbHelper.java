@@ -18,6 +18,7 @@ public class Dump1090DbHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_ENTRIES = "create table " + Dump1090Contract.Aircraft.TABLE_NAME + " (" +
             Dump1090Contract.Aircraft._ID + " integer primary key," +
             Dump1090Contract.Aircraft.COLUMN_NAME_HEXCODE + TEXT_TYPE + COMMA_SEP +
+            Dump1090Contract.Aircraft.COLUMN_NAME_DATE_SEEN + INT_TYPE + COMMA_SEP +
             Dump1090Contract.Aircraft.COLUMN_NAME_SQUAWK + TEXT_TYPE + COMMA_SEP +
             Dump1090Contract.Aircraft.COLUMN_NAME_FLIGHT + TEXT_TYPE + COMMA_SEP +
             Dump1090Contract.Aircraft.COLUMN_NAME_MESSAGES + INT_TYPE + COMMA_SEP +

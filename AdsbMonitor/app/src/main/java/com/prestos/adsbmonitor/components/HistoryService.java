@@ -24,6 +24,7 @@ import com.prestos.adsbmonitor.model.Receiver;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -35,6 +36,7 @@ public class HistoryService extends Service {
     private ApplicationException applicationException;
     private int historyCount;
     private String ipAddress;
+    private long todaysDateInMillis;
 
     @Nullable
     @Override
@@ -78,12 +80,14 @@ public class HistoryService extends Service {
             Dump1090DbHelper dbHelper = new Dump1090DbHelper(getApplicationContext());
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             Log.d(HistoryService.class.getName(), "Updating database...");
+            todaysDateInMillis = getTodaysDateInMillis();
             ContentValues contentValues;
             for (Map.Entry<String, List<Aircraft>> entry : reducedMap.entrySet()) {
                 List<AircraftSummary> aircraftSummaryList = AircraftSummary.getSummaries(entry.getValue());
                 for (AircraftSummary aircraftSummary : aircraftSummaryList) {
                     contentValues = new ContentValues();
                     contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_HEXCODE, aircraftSummary.getHexcode());
+                    contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_DATE_SEEN, todaysDateInMillis);
                     contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_SQUAWK, aircraftSummary.getSquawk());
                     contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_FLIGHT, aircraftSummary.getFlight());
                     contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_MESSAGES, aircraftSummary.getMessages());
@@ -159,5 +163,14 @@ public class HistoryService extends Service {
             super.onPostExecute(history);
             handleAircraftDataResult(history);
         }
+    }
+
+    private long getTodaysDateInMillis() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTimeInMillis();
     }
 }
