@@ -33,6 +33,8 @@ import java.util.Map;
  */
 public class HistoryService extends Service {
 
+    private static final String DELETE_DUPLICATES = "delete from aircraft where _id not in(select min(_id) from aircraft group by hexcode, squawk, flight, lat, lon, altitude, vertRate, track, speed, messages, rssi);";
+
     private ApplicationException applicationException;
     private int historyCount;
     private String ipAddress;
@@ -103,9 +105,15 @@ public class HistoryService extends Service {
                     db.insert(Dump1090Contract.Aircraft.TABLE_NAME, null, contentValues);
                 }
             }
+            Log.d(HistoryService.class.getName(), "Update complete");
+
+            //Remove duplicates
+            Log.d(HistoryService.class.getName(), "Remove duplicates");
+            db.execSQL(DELETE_DUPLICATES);
+            Log.d(HistoryService.class.getName(), "Duplicates removed");
 
             db.close();
-            Log.d(HistoryService.class.getName(), "Update complete");
+
             return null;
         }
 
