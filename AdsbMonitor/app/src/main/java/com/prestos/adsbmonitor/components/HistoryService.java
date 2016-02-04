@@ -75,30 +75,37 @@ public class HistoryService extends Service {
         @Override
         protected Void doInBackground(History... voids) {
             History history = voids[0];
-            Map<String, List<Aircraft>> reducedMap = history.reduce();
+            //Map<String, List<Aircraft>> reducedMap = history.reduce();
 
             Dump1090DbHelper dbHelper = new Dump1090DbHelper(getApplicationContext());
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             Log.d(HistoryService.class.getName(), "Updating database...");
             todaysDateInMillis = getTodaysDateInMillis();
             ContentValues contentValues;
-            for (Map.Entry<String, List<Aircraft>> entry : reducedMap.entrySet()) {
-                List<AircraftSummary> aircraftSummaryList = AircraftSummary.getSummaries(entry.getValue());
-                for (AircraftSummary aircraftSummary : aircraftSummaryList) {
+            for(AircraftData aircraftData : history.getHistory()){
+                for(Aircraft aircraft : aircraftData.getAircraftList()){
                     contentValues = new ContentValues();
-                    contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_HEXCODE, aircraftSummary.getHexcode());
+                    contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_HEXCODE, aircraft.getHex());
                     contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_DATE_SEEN, todaysDateInMillis);
-                    contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_SQUAWK, aircraftSummary.getSquawk());
-                    contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_FLIGHT, aircraftSummary.getFlight());
-                    contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_MESSAGES, aircraftSummary.getMessages());
-                    contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_MLAT, aircraftSummary.isMlat());
-                    contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_FIRST_SEEN_IN_PERIOD, aircraftSummary.getFirstSeenInPeriod());
-                    contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_LAST_SEEN_IN_PERIOD, aircraftSummary.getLastSeenInPeriod());
+                    contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_SQUAWK, aircraft.getSquawk());
+                    contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_FLIGHT, aircraft.getFlight());
+                    contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_LAT, aircraft.getLat());
+                    contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_LON, aircraft.getLon());
+                    contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_ALTITUDE, aircraft.getAltitude());
+                    contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_VERT_RATE, aircraft.getVertRate());
+                    contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_TRACK, aircraft.getTrack());
+                    contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_SPEED, aircraft.getSpeed());
+                    contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_MESSAGES, aircraft.getMessages());
+                    contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_MLAT, aircraft.isMlat());
+                    contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_RSSI, aircraft.getRssi());
+                    contentValues.put(Dump1090Contract.Aircraft.COLUMN_NAME_TIME_SEEN, aircraftData.getNowAsDate().getTime());
 
                     db.insert(Dump1090Contract.Aircraft.TABLE_NAME, null, contentValues);
                 }
             }
+
             db.close();
+            Log.d(HistoryService.class.getName(), "Update complete");
             return null;
         }
 

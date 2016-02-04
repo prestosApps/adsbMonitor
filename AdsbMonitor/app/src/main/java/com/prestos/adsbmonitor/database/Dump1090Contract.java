@@ -16,9 +16,15 @@ public class Dump1090Contract {
         public static final String COLUMN_NAME_DATE_SEEN = "dateSeen";
         public static final String COLUMN_NAME_SQUAWK = "squawk";
         public static final String COLUMN_NAME_FLIGHT = "flight";
+        public static final String COLUMN_NAME_LAT = "lat";
+        public static final String COLUMN_NAME_LON = "lon";
+        public static final String COLUMN_NAME_ALTITUDE = "altitude";
+        public static final String COLUMN_NAME_VERT_RATE = "vertRate";
+        public static final String COLUMN_NAME_TRACK = "track";
+        public static final String COLUMN_NAME_SPEED = "speed";
         public static final String COLUMN_NAME_MESSAGES = "messages";
         public static final String COLUMN_NAME_MLAT = "mlat";
-        public static final String COLUMN_NAME_FIRST_SEEN_IN_PERIOD = "firstSeenInPeriod";
-        public static final String COLUMN_NAME_LAST_SEEN_IN_PERIOD = "lastSeenInPeriod";
+        public static final String COLUMN_NAME_TIME_SEEN = "timeSeen";
+        public static final String COLUMN_NAME_RSSI = "rssi";
     }
 }
