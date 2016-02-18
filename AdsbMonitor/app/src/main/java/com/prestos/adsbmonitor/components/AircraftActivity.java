@@ -3,22 +3,21 @@ package com.prestos.adsbmonitor.components;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
-import com.prestos.adsbmonitor.AlarmReceiver;
 import com.prestos.adsbmonitor.ApplicationErrorListener;
 import com.prestos.adsbmonitor.ApplicationException;
 import com.prestos.adsbmonitor.ApplicationURL;
 import com.prestos.adsbmonitor.DataHandler;
 import com.prestos.adsbmonitor.R;
 import com.prestos.adsbmonitor.model.Receiver;
-
-import java.util.Calendar;
 
 public class AircraftActivity extends AppCompatActivity implements IpAddressDialogFragment.IpAddressDialogListener, ApplicationErrorListener {
 
@@ -27,6 +26,10 @@ public class AircraftActivity extends AppCompatActivity implements IpAddressDial
 
     private ApplicationException applicationException = null;
     private SharedPreferences prefs;
+
+    private String[] mStuff = {"abcd", "efgh", "ijkl", "mnop"};
+    private ListView mDrawerList;
+    private DrawerLayout mDrawerLayout;
 
     private AlarmManager alarm;
     private PendingIntent alarmIntent;
@@ -41,14 +44,18 @@ public class AircraftActivity extends AppCompatActivity implements IpAddressDial
             return;
         }
 
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mStuff));
+
         //Set up hourly alarm
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.HOUR, 1);
-        Intent intent = new Intent(this, AlarmReceiver.class);
-        alarmIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-        alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        //Calendar calendar = Calendar.getInstance();
+        //calendar.add(Calendar.HOUR, 1);
+        //Intent intent = new Intent(this, AlarmReceiver.class);
+        //alarmIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        //alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         //alarm.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_HOUR, alarmIntent);
-        alarm.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 0, AlarmManager.INTERVAL_HOUR, alarmIntent);
+        //alarm.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 0, AlarmManager.INTERVAL_HOUR, alarmIntent);
 
         if (findViewById(R.id.fragment_container) != null) {
             if (prefs.contains(PREFS_IP_ADDRESS)) {
